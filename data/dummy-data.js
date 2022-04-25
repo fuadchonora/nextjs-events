@@ -1,0 +1,1025 @@
+const DUMMY_EVENTS = [
+	{
+		id: 1,
+		title: 'Pannier',
+		description: 'Blister of unsp eyelid and periocular area, init',
+		location: '6 Northview Center',
+		date: '11/16/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAE3SURBVDjLY/j//z8DJZhh6BgQMuWBQumq5xdaNr/84Nt1t4FkA5LnPd4A1Kjg1XaroWH98/9keyFx1sMLKfMePcAwoLy8/EBxcfGB3NzcA2lpaQfi4+MVwsPDD/j5+R1wdXU9AFJjX3GtIWzSvQvmOZcMMAwAag4Aav6QkpLyH6h5AkgMqLkBqHmBjY2NgnXRlQCn6msLTDIuCBgmX3DQiz+rgOEFoM0OQM3/IyMj/wM1F8BsBmHv1psH0uc+/J8868H/sIl3P+AMA6CzJwQGBv53c3P7D7RZgORoBNosANLs4uLy38jIaALJBoCcDbS5wNra+r+BgcF/BQUFB6IMANkMDbACEF9TU3MC0AX/JSQkPggKChoQNABq8wGQs4GaDYA2HwBqPgDUfICLi+sACwuLweDMTAA2jKFj5WHetwAAAABJRU5ErkJggg==',
+		isFeatured: true,
+	},
+	{
+		id: 2,
+		title: 'Mat Lam Tam',
+		description: 'Anaphylactic reaction due to other fish, initial encounter',
+		location: '902 Annamark Lane',
+		date: '8/19/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAG8SURBVDjLjZNJS8NAGIarv0PBuzcV/4MHwYMHL/4CPQsexYvoSW2RioiguJ9cigtFKhpxqVtBXGqtVRO62TbJNFMb+zpfNKJVMQMPCWTeZ+YdMi4ALjGqBPWCxn+oEVRSxsb1IajnnGeLxeKraZr4DfEdbrd7sFxiCxoprOs6GGOf5HI5ZDIZxONxS6IoCjwezzcJjQoS0ATDMFAoFKwnoWkastksEomEJcjn86BFvF6vJfkhoLANCSigqiqSyeSPSh9nUvFNIGp8TqB36m1XSaVS1k5kWf5bUM5XCe2EziOdTjsXmGYRgVAMi9I1JrbuMbPzBF/wAS8F5kywfX6PlWAcNwrDXYpj/1bF2mkS/pOYM8G8JOPiUcNBNA8pwrArCMkcs9vR/wXUf9wfRTjBId3q2Anr8F9qCMY4pgKPzgSzovPFE0Pg+j1MHD1wjPqunFUIhBTsh1Uci9Be1MChWH35TIN3cgl97XU95YJSueBZ4zi8ecaCOIu5XRljm3cYmfQhtDYGabidTXfWttl3oUH8fUyE/rxMNpGD1dLReEcpsj4EX28TswXVJHFwnS26mqu6NwdajY3+FrwBN5GpoomTEloAAAAASUVORK5CYII=',
+		isFeatured: true,
+	},
+	{
+		id: 3,
+		title: 'Treeflex',
+		description: 'Sprain of other part of unsp wrist and hand, init encntr',
+		location: '46001 Springview Road',
+		date: '9/10/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJpSURBVDjLpZNNSJRhEMd/z7vr9m7t2oopZl/UoVWpQ0RC0EFL6FAQ4a0OXbrVLaJDEdStjhEUFQVBHaIuSocIomtWJvYFRhb51eqaH7vu7vu8zzvTQbENvDkwDAzMj+E//zGqymrCY5URBxh6vm/Ar21rM6aapwSF7yORm90PBP9NGQAWskc/ujiAUa9ly4EHNcYY0MVhjMFV8jtyA1dGdKkLEEvUqkbhZHHi1XngSRwApxXErgl+3yKyMfBqMSaN33yI5vZrCVQBARVAMV6q6VvPgcv/AKHxVCyRTaCiSPkX4UKO4uRravyNoCGIRdUBjnTLhQQq25Y1wKgvrowtgdoFwsI86ZZT+PWtgKGU72du5CWNbWeJJVKYeAYiL/4PEHrEk41kWk8vraoogtgxwj8vmP7+gVTzEfKDl0jXCf7mixAoVQBVjSpIaRCN5tCogLpZJJxh/vcwaxu7qN24h+Evj0nEF/A1gLDaBwGq4pBwCrFTiM0hNoctjjE7kSO9IUM030PDrtPMTIRIFCwfdhFgVQ0R6v6gbhoN86ibZnZ0jPrsCaj00/fwEalMmULeY378E7gqgFqZcaXpubCYEFdK44IGivkk4u0kXVdCgh+gQlR8y/aOc4y960Ws2GUNtBJcH759vB2lC0MaYwjq6hJbO896UnqDSpm93VnEjuOvGyKz7SBTE/e/Lh5whWfqv9NxZkPrsZtNO5NExT5ULe+ffWVvdysmth6Sh3l379KkinSuCOi7sX9098lHm2LeT9TNUOVkwCOWzJL7PMBQ79Wn8ZU+zAXW77/bXVZRVKQqdbkigqo2/QXSf1oX6zFeUgAAAABJRU5ErkJggg==',
+		isFeatured: true,
+	},
+	{
+		id: 4,
+		title: 'Toughjoyfax',
+		description: 'Inj flexor musc/fasc/tend l mid finger at wrs/hnd lv, subs',
+		location: '05760 Schlimgen Street',
+		date: '4/1/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAFFSURBVCjPhZG/K8RxHMZfdy5OnEEMhhuMJCMldVl0JcOV7Bb2K/+CRakbTOdOsSjWK2WRZMDiR1eK7sJEuYsv98P3/XkM93Uj72d51+vp6aknJP6+yO+z3U/azTGsDt2rQGb5NQBCiHxqz3tUU5LUUFm73uZCi7Rw4lQ1OdVVVUUfaupLa5pJChESud5YcT4e4RPD4TDEDfs8lNz4iRcG0pPxKB7WVp4VYgwMaxXC4JJD1PHb2ibLN7f0oSSEQROdfGL4GEaOLN84rojiJiACAgwfhyPPFsIwhCFaCed1ujB8cmTbSSN4cA5hsMNnuvHJs4UFPYxRqthhK2Hj7KlBkWyADJ9FKryUtA4hAZnE23GZHq65I0KcMTxe8WYvjgIDTKe0M9gboxOjwTsvnpYuD6BtgKl+pZmzUdUoUVDmMhgr9N/cP2kRvjgCZVaBAAAAAElFTkSuQmCC',
+		isFeatured: false,
+	},
+	{
+		id: 5,
+		title: 'Zamit',
+		description: 'Open bite of front wall of thorax w penet thoracic cavity',
+		location: '9 Butternut Center',
+		date: '11/25/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAKESURBVDjLfZNLSFRRGIC/O3Pn1cyUlLXIlB6SQrXo/YSiRSQDualVUFZE1KJtrTKHIloEbQpqYUW4DipSehBIYWr00MIs0ckUR6Z8jqNz7/nPaTEqI2E/HM6D833n5/znWMYYZuLglUZz4lApTT+H0MogohHRaNEopdmzZgm36z7w/vZha4axyQstgtYG5U6DKteLyjWlDKIkH8GTP5k9zRWUI6xzP3PKuYvrCK4rOeH/BFoJExmX5dEAriMcMK/YER6gaKqb4kUh0pksIv/NQOKt7YMUBmzWRydYa36gl+8mZjWxLOyn+WMfWkl8XkHj9YrqL99T8ea2JLtohTWVSOFWNjlNtHz6SXtnMt5RV1Wdz1jGGHi4O4THW4bBC3ChM3bm/Op3pws3H0dcm8CvRzz8oJ9UlSZqyG0BNZXi5JvenODBtj4WlxcZLDAGjEaW7SRrr0Cnf+NVIwQyP7CmhnJJiwvpATxjw8dygmvFh1CmTu87G5HSI+ixFGrsN3o8hc6MYJwsGI3lX4AXhd3+lGBP12PCvqPW7EO6VFSK5qneXlmWLalEhpNIZhidGcVMjGEsQ0ANEfn4Ukirau4lr869xHh/FxHfFs+3hkf2yFeMdjBTE5hsBq0msX02kY7XQzimYgb+pwpcTKQpWPjCM57AKBeUC1rAne79dpo7/S/mLSMA3mBMCspzQ58i6B3FEypAdABZvLSEmvIN8wtqd4Qw1n6JrCTYXU/0eW3Xgrf196OpZgLecdTCVSBWbH6B6L0SXhHyPbuMv6XlLsps5FbfCd9Ab0X407N+MzkJrpkjmPMbGR0p8n5P9vDHOUftYMPs+o1EAxfL1gU7224ibMtH/gIKIWcO8vV/HwAAAABJRU5ErkJggg==',
+		isFeatured: true,
+	},
+	{
+		id: 6,
+		title: 'Opela',
+		description: 'Corrosion of first degree of right upper arm, sequela',
+		location: '78 Merrick Center',
+		date: '2/22/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJcSURBVDjLfVI7aJpRFD7/7y8qdlDwQdQYwQYJJdCSNmSwlBQcQjK4Zil0KIUgXVwFUeji1Lk4dLGh7RCoDhYtRQoODnUqjVY0SJKKT3zg83/03Jv+YlLMhcO595zzffe8GEmSQD7CK580sztgmkgAtYsiSETwTrTq4ADg23fQfv3CyBgOFo7E8/NgGTgnkYmms0UIsNcIZvwVQBCoDDY24PzwcP6mJLcSoFOaToFdX6eAhtsNo50dGJpMwLpcAOMx9d9GEGYuLkHhcICwtQW91VXQ6/XQ2N0Fbm0NxF+/acxSAtXx+yBc/gnDWRXaSGBaWQGdTgc1ux3E0xJIxXJY9/NHcBHDkMbk83kNz/MuFMVsNgPHh08vzx67X9i2H9GgWq0G0vHH+On9zRDxT7EM1A2/31+lBLlc7lypVFoFrBtJqJDUWZaFyWQCHMdBvV6HZrNJgNTf6/Wg3W4/o2NE49FoNIpZrdY7JOVutwvD4ZAK+YAQm81mcDqdoFKpyIdQqVQ+I+6EkRcplUrdRUPCYrG41Go19Pt9CqSzRyE2EceYTCYFjAuGQqHX15ro8XhKWNvDYrF4QtJUKBQUIP5bICyRgNsYsyeD/5uC1+sdYECq1WpRAtIDohmGoSTYj0E4HE4tHSM5GLRvMBhoylqtFndnTBtK7qjt2PnNpQTRaFSDGTy12WxQrVYhHo+XMpnMu2w2C51OBxy4YFje/lICBD8xGo0arJV0+i2+HwSDweeFQmEvFotdkH7cJOBupG8tl8sVBB4FAoGkbI9EIkmfz3cvnU6/wR3YXsT8BaM2jDnYpij1AAAAAElFTkSuQmCC',
+		isFeatured: true,
+	},
+	{
+		id: 7,
+		title: 'Transcof',
+		description: 'Sprain of lateral collateral ligament of right knee, init',
+		location: '61 Michigan Junction',
+		date: '1/30/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAIvSURBVDjLjZLbi1JRFMb9N3ro8mYgPqSBCIEPoQSGYYVREkxxTLQsREkjlRG18doxZbyGF7y8HAONQUgnENEHQyFmJqEnoQf/gBDKl/na+1RDEz6cDYvF3uz1W9/+9hIBEP0f1Wr1XKlUWuRyOaTTaUSj0W8+n0+86a5o02GhUHjX7XYxGAzQ7/dRLBZhMpn2BAMSicR4e3sbyWQSFFSr1WAwGA4EA4jcMc0ulwudTodXoNPphAOCwSAPcLvdaLVayGQy0Gg0wgFer3fsdDoRDofRbDb5p6hUKuEAu90+LpfLqNfroCpisRgUCoVwgMViGdEvJErQfGrD4rkTP23WYzx70iPBbAQ0Go0LJNbUcbPZjHw+D/KdWHpe4PiQNJ9+wrrF4cvN2zAajb5TAFpM5K6n0ykCgQD0ej1kMhkkEgm4uwZ8jcfQzLjhTN/Do9c3YAxehZq5/PEEQLryxavVCsvlEovFAvP5HLPZDKPRCG/qIfi5B9g72sXnZQ9s34o7rBSKx2fifycPk8mENy2bzYJlWYRCIXg8HjgcDtx/pUbnMInOPAW64vsmsPtmCvjBA1KpFIbDIWgmcw+/38+7b7PZwDAMrr+8hO7RW/y73h/sUsBvIyKRCD/zdGzb7TY4jgPxBZVKhTfyiu08Yr2H2Olt8cU7H7ZOK7BardBqtVCr1XRgoFQqIZfLIZVKIRaLIb12FrfiF5HoMXxnmun+xAMhQS6HSXynsv/kMD3/Bc9MubHqnCOyAAAAAElFTkSuQmCC',
+		isFeatured: true,
+	},
+	{
+		id: 8,
+		title: 'Y-Solowarm',
+		description: 'Adverse effect of phenothiaz antipsychot/neurolept, sequela',
+		location: '2798 Schiller Parkway',
+		date: '10/23/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJ+SURBVDjLpZNdSJNRGMeFoC50flVXBV1EoF3YdzKYG0u30FTsY9bQnLpqrSg/5uZe29RtimvkxBbCTJupmzpLl8tNxfwObUxTF2RQRNJFGOqFYELx/nt7LwaCzKKLH5zz8Px/POccThCAoP9hy+LNq+nVJZzdULMZULBCIGVGQpye2vhXAqlYVK5OiYIhMQx6Cg0vFDJ2CLLj9kGcJTRuKyAuxKKGCiqokIwmFPmcCOScDkPa0T3ktgJZbDjZa1Liq9uAcZMEGaciIGLuhZC5H4Lj4TDKrgQHFJgzD6yuvn+F5Tct+PbagumnRfjk0OC7z43W6wfX5ptu7QwouC9ielY8Nix5O7E+20bRTq9Xpttgzj3iDXgEvuJZMPt23Wht4UVseBvw4103zfpbK+qJ82BdezDCL7AythSw8+yRPIW1kaN+gaahBRRo69BaKEBvVjxERDNV+4Az5S/Bl7c/ji+whW8SMItcO/LrxyxcdQ/d9GT4I5INQxh0TWBKkoUUjRN6hw/C2jGwS7pJbp7FyJXZd/kFScVWXcbDcTg8i0jQusDTuSHQ92E2Iwnz2WlIrhoAt8yJVMMw1B2zuFw9RPLzGqr8ghlV1K8lpxKEbQa6rnm6Sah3w5aaAlVuMc5VuJBpmoDAOApJ/SSW+0oxWRS94RfMqaPJlQEtBDWjeNS/ACUlkrd4kW8aQEJZD+5aPJA2TKGyy4fEij6sDurgKT5M+gW+5jvENHHo5yXjCOI1vajs9tGUdc7hbGU/PdWfPeeeAyxFB2ZKYzaojG7TK3xulzIk2saYkzfMi1zqouKILrCUz2mYcjtYcjt5LMe0JlaZT3zpkDIC/sZ/4TfeSKfmHj5WOQAAAABJRU5ErkJggg==',
+		isFeatured: true,
+	},
+	{
+		id: 9,
+		title: 'Fix San',
+		description: 'Scarlet fever, uncomplicated',
+		location: '8 Chive Place',
+		date: '7/26/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAALXSURBVDjLY/j//z8DJRhMmJQd+x89/W4IRQbY1x5L8590dzmy5PuIqC4gfvA+PPIyEMfhNqD06H+L9gfG9p33/jr23OMEiX30DTj8yT/oFxCf+hAYfBeIfwPxIyBWwjSg5Mh/tYZHzDr1D34aND7Y9tXOsf2Lg/O/z85uNjCFn908lT56eH985xXwzXvygwYUA4yLD/9Xcm+QlS572JWesP7XVyOL79/MLKci22Rc/6DXvPH+X8um+79t2u7/tOu4/w9ugFHxof8wha+1LP89NHT9iay5aNKKo9vXVvyzrz27/LuRqeo3Y7P/y6I7piMMKDoANuC3mNTSn5Iyv239dn3nSnwwiTfpIbN85tU9e9fk/Xt7e/X/29vCekDqfmrpHviurfcBboBB4b7/1QYB+n95Bf/94RNqY4h40MIQ/uA/U/iDv3ltc/69vr7k/+8vd/5fXx/4/tpaf1OwIYoqvxAG5O/9/5+R1f8/E9sdZKc75m7uvbgu4MeP11v+/3jW9//d3a3/Ly/z3HRpsTvrb3HpDXAD9PN2///JwBLym4FFHKbZb5aV99Ilbt/f3Fzz/8fjpv+HOoz//3q75v/5ec7/zs12DAa6VgpugF7uzv9zRDUc4DZ3GE3LmWT59f7e6v8/Xy36/+1O4v9D7Yb/vz8s///h3rb/p6ZYXTs50YIXboBu9vb/liU6khal2jPNS3Uf2ZTpvD04y/Hhe2DAfX9Q8v/rrQgIvh0L9MqE/w8PTvp/tMuoDmFA1rb/Rhma/oYZ6m7qAZaux6bbFTw81Pf/54vpYNu/3o4GesEITH+7l/X/2/ON/w8267462KitBTZAO3PLf+2Mzf+1MjYB8cb/O3pc/397c/f/z3d7//94BQyDV6uR8Nr/vz9f+f/kxJL/+6rVVmPNYUDnvTnSbvDtcKv+t0PNut+ANn07UK/5bX+txjegpm97K1W/7S1X/ranTOkwAORfnQagLb+TAAAAAElFTkSuQmCC',
+		isFeatured: false,
+	},
+	{
+		id: 10,
+		title: 'Holdlamis',
+		description: 'Displ transverse fx shaft of unsp rad, 7thE',
+		location: '533 Reinke Road',
+		date: '3/8/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAADrSURBVDjLY/z//z8DJYCJgUIwyAwoPZHJBsS7STGABY1/9e+fvzKkGMAIiwWgzRfF2ST0/vz5w/Dw/UOGXz9/M/z6AcK/GH4CMZj+jmCD5C70X2VkgWo+KcYqrqfArcTw598fBhluOTD9++9fIP7N8PsfEP/9AxUD0b8ZVq9ci/AC0Nm//zD+Yfj19xdY0R+got9gxb8RNNQAkNyf/0CxX39QvZC5M+68MJuIAQczJ8PDlw8ZXr9/g9XZIK+BNP/5/Yfh/sJHjIzIKTF2VchNoEI5oAbHDWk7TpAcjUDNukDNB4nVjOKFEZwXAOOhu7x6WtPJAAAAAElFTkSuQmCC',
+		isFeatured: true,
+	},
+	{
+		id: 11,
+		title: 'Daltfresh',
+		description: 'Guttate psoriasis',
+		location: '28187 Warner Junction',
+		date: '6/26/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAIaSURBVDjLhZFNaBNRFIWzFdy6EIrQhdCFLlyJ4KLgShFciOhGTbVVUFf+rNxYEFPtmPhDKWI3diP2DxJF22mfirQrMVpbRKUohJi0SUwySZvJzBhOz32dlCimHfh4897cc+67ZwInQuNtJEyiTXhGzpIdAAL/EuCH+69nk6pUcZVVZ2WNIlkqVtTo9IJi3Y1mBjERF1icX3bV77KrsmVHZUuOWrKq+jyRKYvBYFMD6SrijC9aLFZVqmCrZN7W+80MnpdsV+XYWYrTFL+dS72/8ng6f8qY9E4TWVnnkIJPktyS/MRgJEeh49W0WDpfG5gpMhdwNFh1VtZgLmAuYC6gdlQMOo2RuIovZJT7p6Y52Wt6Iub84GhgLmAuYC7gLfU5xxKD73oOvuwnQ5L4xIeEzOtJVxFnfBFzAW8H5qL3fxn4Jk/MuBaPkzJzAXPRxekGcSJXQZrvv3LLYvCzLt4iYZJXZCdZZC6oerV18fC7IVx9FMS58BF03DmE/thDMfhaN9hGukmrvw+Fxz5i9kcWzATRmafoHu7Ai/k+fEqZiExewPHIbrRfPvAm8L9/65scI5ZVcRC8fRDRuXuIfnkAeYypLkSmzmPvxe12UwPf5BtzweHre/ByfgCNT+xznxhsKN4qNyD2vkstTq95BiEzqMWhieDmN6CwhYyRXSy8edRow12zU3eWVfY8NzYcoREW95CSXNtfe+R8FZtm9C3KURomAAAAAElFTkSuQmCC',
+		isFeatured: true,
+	},
+	{
+		id: 12,
+		title: 'Flexidy',
+		description: 'Major osseous defect, shoulder region',
+		location: '7 Granby Lane',
+		date: '3/9/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAHWSURBVDjLzZPdS1NxGMf3L3TbXV5EEN5030UJpTdClBBKSgh2Y5cyW0QXISY2eiGxklYgGoaE2YtFdTjHvZyO25i6uReOuRc3T7TNnOFOw8bHs2MmZUEQRRefm9+P74fn9zzPzwJY/gTLPxUsjB04Hh06ifq4i+m7R5jp29/82+HFiT2NmmBlZfYpfMrwcXYU+Urte/PS4XDUGLw14Gc8G+4gF7pIaXEcTeylGHzEl4SL4L02fUsQ9vtl0mnVJJOpML9JbITl0AXKRRfFd+3kp84SGWwlMHC6PHXj2N4twYd4PIzH40KSJBOn04lX6GM5eI6yLrM234KeamI1bCNxv54HA/bStyZuCiIoimwG3W430lgvmtf6NdyMnmykEDqPeqsOLSJWnqZ/J0gmY/h8XmRZZnL8KuEXHUbZk+jxVj6nTrFiVKL21zLnFclmMzsFqZRKIODn5VA3c89tzExcI600sBZvIj/dSex2vRmORiPkctq2oNJlQXhlHC6Rzy/xsKcGVhNE75xAsO3GbZTssR8lu+CjUMga5ExEUTAnZPlxZJfaqinJNykp11G6DjFyporB/h5+NeIdC9NwcJfe3bJv/c3luvXX9sPSE2t11f/zF/6KYAOj9QWRU1s5XQAAAABJRU5ErkJggg==',
+		isFeatured: false,
+	},
+	{
+		id: 13,
+		title: 'Bigtax',
+		description: 'Corrosion of third degree of left lower leg',
+		location: '34973 Declaration Avenue',
+		date: '1/22/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAKUSURBVDjLhVNdSJNRGH6++enSTc3Rl9Y0KzRcoSHShURERRldlLGLMsqrCO2iLuwuL7qKLr0MoQvDHJigJkEbG5mGdzKU1PnvN7I2Fgu33Or7W+858YkrpRee8x7ec97n/TtHyGQyCAQCVtJXCS2GYdSQribQ1vhEeon0C0KgublZx18i+P3+43TJI0lSXVlZGWw2GwoKCsCINzY2kEwmEQ6HEYvFPpLtptvtXs9i8Pl872VZZuEyu4mqqplgMJh57O1Ya/e25jByExZaTpSWluJ/4nQ6kdZSTlXRAtvtIkXmTNPT07Db7RwlJSVYSS7infwGa8llaJoOTdXhLCwX7Zr97C3PdW9fy2BTFoHD4WB1IhKJIJH3HZPKBA4UOXHh4GXoGR0GQTd0vk+l0peuPW9aGm7zVolmLSyyKIoUTUMgPoN9uRIk635MRYNY+bYMVVFRXlTBz0PhBf/Ifd9FloHFzIAdULM4FhMh7jiyMIREfBOte9vwtLEL65+/anNyaFz5qTSdf3Y6P6sEXdc5CcO9Qw85UTQaRfJHktvYnTzFqpPzOV/HmEG+6awMzOgmyRahquHtlyF+p0FoTJCz/s8UGExHk1DRflHjDAxHBpBSNrldURQ0djaMUT/O0DgZuSyySPF4HPQS+QTS6fQfZksuBuQ+5BXlQFDzceflDWqkJh2tOCydqq/H7Pw8xsYnvILH47lC7P0ul8tWWVkJq9UKQRBw99VtFBcW4+Sx2q3xmeNcWl2F3z86qWv6I4Gl29vbe4RIOglui8VSzP4CK2dQfo09ksgf0kxoDhpPm/VG/0DOT1Z7wqOcYLt0d3cXknMVwaCmhjzRHi+l7pjqmq3b8Y1v/xg7ofZBTY6rvbp/t/PfI0AjgZ0qo+wAAAAASUVORK5CYII=',
+		isFeatured: true,
+	},
+	{
+		id: 14,
+		title: 'Span',
+		description: 'Idiopathic chronic gout, unspecified elbow',
+		location: '921 Continental Junction',
+		date: '3/2/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAE0SURBVDjLtZHPSgJRGMXdzmPM88w+gqBF0KZF0CIIstkkhVhSIGFYYWHSHxKmCSdhYAiCIEJTk4ibNJbUA1jjXDenMy+gzkSLD+7i/s4533diAGJ/mVCfs05fzdieEVpg76avENYJe1uVH4QSIKwRFqUHH3ZzgI3y93gC+VtfJWyc3fuw6hL2k4T1KJG8GiFQuJMKYZ2wZ9YknNYAlYZEmW+zKrF22RsuQFgQBmODOyPYOYgdOAdwwughcgsja1w56WocwcFy8QNLhQ4WD10sHLQxnxOYy75gNvM8PAFhhbBO2Nu1PlF0vrB/3cWO+Y70hYuZ7dZ4K9BZpbOROHWxWeogdf6G1eM2ptONcDdgbI2xRfzoFfG8wFSqHv6IjK3QWSfsTSZr0VsgrE6sV43/qzHK/AJ0lPqXO1KzBQAAAABJRU5ErkJggg==',
+		isFeatured: true,
+	},
+	{
+		id: 15,
+		title: 'Alpha',
+		description: 'Age-rel osteopor w crnt path fx, l ank/ft, 7thP',
+		location: '782 Sunfield Crossing',
+		date: '12/23/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJPSURBVDjLjZJPSFRRFMZ/7804ODhT42iaxZR/NiEFFVESGFHWTilo1SoqEGplQUQEtnSV4KrARRAELZKgVRshgoggUKgoDCUEIxumxpyZ996995wWM/knDfrgwoUDv++c7xxPVQG4f7mjG3jPRhUHx+cy/EPevUvtB4E7QH8q28r5W8OU8m8AaGg+zMPhm1RKSwCPgInB8bknawFxYOLkmbO7kqk0ZnYKVcWFJQBUld59Ofy2LlT13POnzwaADYDdydQWol+LWLHMPR4FVUDJ61sUJVicp755ZwJI/D1CHABxqLX4me2Is6jK+jmDMlGxvGkGcQAVQaxFTIiYsNbB/6kGsIgz65zvLl8jZpYJIks6244ECgeGuDL2TsUK1ijOuj8Ah1gDziLOgYJvK4xe7SMe8zd1LhQjbox9WAVgDeoEtYKqopGhLuZz+8EnioGjuyXJzEKFdF2MTCrG9GwZZxR/pQMnOCs46xDrEKcoEIRKQj1yrUl+lIRtmThB6NAIvFWAIMahtSdG0KgaZD0gofJ6+icmEha+hXyZj+jZ24BvawBxUnW1DrHVv4uqgZpQ+Vp25AuGjOcxs+DwPeX00VbE1QA4RYwgVlDrUOuQSEGhVBH8UDl1JEt2a5xk0ufYoUaaMgnEKXHgpYmi3oYdOVQUFQEFCnX4MXCR0NFUR//xNqY+LpFWy4meFmK+h2gVMPJicjIN7F+7pqXYAPlCyMjQHlCoBJbrF7pW6t8LITZSPP3H1fVdfPU5Cmxow6C+M9fYKVINWxVUFBEPVPgN0HNzn605xt0AAAAASUVORK5CYII=',
+		isFeatured: false,
+	},
+	{
+		id: 16,
+		title: 'Subin',
+		description: 'Burn of first degree of upper back, sequela',
+		location: '695 La Follette Parkway',
+		date: '7/4/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJrSURBVDjLnZPda1JxGMcVxiCiPyD6B7op2FUE3UR0EQRddBHBGDNsvbKE1CWJtpqewbSNdMUg2IjtQieNE5XuOC98Yb6wC/EVNAVfEBkMN+fxXZ9+z4+OSXUR+8HDj3N4vt/v53k4RwQAopOWx+O5diKh3+8fdblcapZly/9sSCQSZ2KxmD4cDu8Fg0GWJF0ZSh2zk2Oz2fi1tbW/xfF4/BQR7xUKBTg+PoZyuQyhUAgcDse20+lcIqnZVCoFPp8PjEbjxp/Jo9FodDeXywGefr8Pwkkmk2C1WnlCACaT6YBhmGm1Wn1aEIpJw1QkEilks1nodDrQ6/WoAdbh4SHwPA+lUgnMZjPo9fpxpVI5ilpEFpP6nM/nKTIKEBub2+02IE06nYZarUZNOY4DnU6nEKhFZFGvBGQBGwkymQwQMigWi9BoNGihIc6v1WrtA4NAIOBDRAEXU7rdLtTrdTo3LhPxkQ6NSSCoVCrXwMDtdu+3Wq2BEFOazSZNRGMU4G0P2uD5hwmYensL7s5d5W+8uKimBt6trX1MQ3dBKCQeHR1Rw0/f3sPspgS+xpYhXOJg0fkY7ixegEtPzhpEoZUVD+4A04eFmCrMPMFc77HRJWAT7+ieDDv3YXHnARo0ROkZ5Sq/sABtr5cKqtUqLRwLjdbX1+HmyzH4HvsIw+dLZBkNQJSTSkd+PJverb95TZeGyZVKBcg3ARaLBRQKxezlp+caC9w9YLhJKma2J38T4CKyEslI9NHDVXZmxrOhkB9oNJoS2fSmXC4fl8lkYtI4d9twHoyclCbjjc90B//7B5LmeVJVxP51z+P7nwtGFih8vipxAAAAAElFTkSuQmCC',
+		isFeatured: false,
+	},
+	{
+		id: 17,
+		title: 'Subin',
+		description: 'Methicillin suscep staph infct causing dis classd elswhr',
+		location: '18495 Vermont Parkway',
+		date: '2/3/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAFsSURBVDjLxZO/SwJhHMYF16b+gP6GZiehwcm7hBORKLXzPT1SIhMUHCKO48TT88emhwchHTiEERQhTrlE1FIhQS1BGRTU5vr0ntgS6BFBDR94eeH5fPk+L68DgOM3OP5MUCjkg7IsPf9YoKoFJw1LiiKPJGkX7wyToCxMFWhayaVpxTHFouqi4ftmU0enc4CTGLEE15T5qYJSSUWtVkW1WkalUkartYd2u43zbBZPPp8lMGeuoKp59Ptn6PV66Ha7MAwDp6KIIcfh1u+3BHMzBXRXmOY+FEWBLMs4FoTx5LtgENuJOGxLtIrS9ToIITADATwyDC69XmzGBYiiYC/I5bJoNOo44vnx5CuWgcftRii0iliMtxek01s4jIRoeBk3dO/URhw+eo7QO0Ii9oIBx+lvLPvxwrKDnfW1JULCD8mkiEwmhWg0PFtAG16kvFIuvtqmU51RPixTRraCicTz/akmohXK8P8+0zQ+AXBHwZp9sfnqAAAAAElFTkSuQmCC',
+		isFeatured: true,
+	},
+	{
+		id: 18,
+		title: 'Flowdesk',
+		description: 'Complete traumatic amp of right foot at ankle level, subs',
+		location: '4 Buell Crossing',
+		date: '3/4/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAALNSURBVDjLbZJtSFNxFIdvzKSBIfWlKCqMygiMoj5UhItR9CKaHxSNIqhMtIhsZSsrtbISZTE0nbP0w2Yh03xhmK2WKd3EmGV+KIJKiCTIoBesmXXd07mIlS8XDhf+/J/fec65VwGUcdVRGS1lo83RTUeZht+u4SvupvWSjYbc6In3J8IWAYM8qYXeZikvPG+Cx25oL4P67CCeLMvkgI7KcNqdrXTVwLN6ueyAO4VIV2g6Bw1WaM6FtqvQmAPXd7fiSA7/F9DmsPNEYD3AV6wJaBZd499ONw8bcR00U71Xo17C3Jlg32EbDWgri+FhiUbXLel4RaMpfxGNZyJEt0B0O6nJ7MS1v4CKXRE4kxZRGq/hkSmKTBqFG1Yo3LfZUatFz67rmmm0zqfO0kfLRajNgluH5H0MKhL7KNk+n2KzWULgxh4oWG1TRPcVnTWjs9WfMIpuHd7ziK6HylQT1xJNouvBnS5dY+soWm/kwhrEDHKiXyiiO0ynbNmTpR8aRDeIOwPRNQUCgQRVVVeIronSOLi4Nkj+SgNnlsPNIxKw+KsiusOoVbKYg/p2jVSk6LoD1B7dKPBvv9//i/KkbaL7jrwYsC41krNkdLSzUYOKbPc1t7MR3aDohoturL5dgd0898Gbe3g8HpeauvBUR0LkB785LNQeF671ZSzQA2SEil1HRTddFhM59tkEni2dB71eb0jgkPfcvm+9x9cND7XYCL28y49aC4HDMSM9yTOrlUm/spTA5QJrfOqBjwFads4hKDAlsn3rLLgcxaeiTfg2G/qmglcJPKJ3drlcqtPpVP3m6YSeNvD/8yVvLvo4kwIE9gs8JPCNsbOWHTN/fK86AAL9PKnwWepdhgHfFkP/RDhO4H6Bz/5//ihlXn5X2rKRD9YoBk5P523aNB7Eh2l3txhyxgUIXClwwlR7UVMWnLqzdcZHXVs6v9dh/fwPHS3E3E4GyQ4AAAAASUVORK5CYII=',
+		isFeatured: true,
+	},
+	{
+		id: 19,
+		title: 'Zontrax',
+		description: 'Pregnant state, incidental',
+		location: '3373 Gina Alley',
+		date: '2/20/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAALqSURBVDjLjVPbS9NRHN9T/0BWFBQUVIQKXigCpVIyygcDJUrnZdNEc5hlmZc0TdSF0bxszs3LvM3pXE6Xa3NL0TJTl7pcTY1Ec5rX/WxqCrHhp7NBPaRGD5+Xw/lczud8vzQAtJ0wWhLp+4kbUThSFGrQFwTrB59dE+ryA/3+vreNOMaPOmLkMeUT4mTMaoph1klh7pPApOLAUH4LPTn+X7qzLwXsKDDGj0wy8hibM+oCrI9pYTWGA0ZnWEd8sWZQYvXDC5g0XAzyo6BJP5f/R2C89OYeErlquiUPP9vogNgF1iYfbH10B0zxRMQFC4oszMsz8F3XBOqdBKqUs7a2B6fdHAIkMnu6le1w3WrwBLrjHSKWrhhYh72w2kVHjTIIae3eKFJexkp/I0YlKWhJdKsgZIanoTjMtlHPxSY9BD/YgbA2eGPteRjmWzOJazrmZKl4rL4AQT8TD4nIfPMjzKgKIUtwNtJIyxXftISclICN3GxYfHyw3FEEy1ALLIPNsOhkWGzLw5umCHCUflBLr2O29i4WXgnQwDpB0YY5NyapASmoxlxQrGAsFrAIWQ6D6Da0GecxXBaLFfLmuHI+TgrkCBCIYKqIwVKHEHWxxzZp758GbTrc9AqYu4WYb8kkRcnsLcPejzL5DKi3dfAQSEFX9RKRZkzxQklKIaqjD4PW9+QqVy+IxmdpOkwvOaB6xVjpa8QQOSMtY4DHAPW6GuLSVFwprUJxSQYWlRyMS9JQGXlw3PELZDB8OzN9c0hkdXua1/pYfTKonloHkeoWYVachCkuHZNFwZhrTMeCmov2rIsoY+wL2TaJJLKr4r6HzUyIpso4R9yp4mB8LWFgScPHtJyNjhx/CCOcCnccZTua77jKRkiJy51lmKlJxJK2lJBLoOMxiet+myDcKWXXXbBDGn/KTcI6brO7TUgzMcBl4Pk9d3tkhSB8r+s/l+k36mKOJpKW10VRh/TlzAOFJLLnTvd2Ffhf/AKfTM1hskDhXAAAAABJRU5ErkJggg==',
+		isFeatured: true,
+	},
+	{
+		id: 20,
+		title: 'Trippledex',
+		description: 'Primary dysmenorrhea',
+		location: '32 Corscot Circle',
+		date: '12/6/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAMsSURBVDjLXZNrSBRhFIaHIIIyu1q/+hdYJBVhJUmE0EWiC0U/ukM/KroRllGR1S4UWVnZTdJMS2ujrbZSK7ruNK5rm+m6bV7WNbfc1F3d2d3ZcUxH7e18k1k08AyHb87zHuYwwwHgOp9yQwgd4SA+EMPY+b/Q2cSB5zYi9s85FzJxQ4kznRUbvqsBM6SKjX5b0XJL6muVJ8QB+PdFq4SIfUegqzZNpH4bMUkL8N/ljki2TS09vqfoKN8S+micJ6dbArhS4ceN6jYNVp8XmlBtnKWEnXpFrt7fTl4lMZTz3uSORhxpoq90S8h6e17vpfJm3HO0wiB8RZapBpfu1+DmmyYY7N+R986MuqIl/V3e+32+x1Nd5MZyX7K5+fU5w11ludOVM+Ym3LU1w2T2oNErISDJ6JA64WqWUPiyEXmlHtx7kgGHIaG7Nie6itxYbRGpN4rPHnzoRI7FAyNNY1cwHEZDSxt+UM2QfwLXShqRxbtxzChgZ771pLYDdtuQXckfeODEtecu1NJkpfcnZEXB1bx8+Cko0t2Nhy/eQmgI45TxE1gvcwYD1mQKYoqhCqfvOODvUhHs7kcPPTis0+O26QkOHtfjpdUGZ1jFviwbWC9zBgNWnHoubsu1QZdvR7OsUkg/vOEITmSc02TB/gkdvcDHgIo9meVgvcwZDEg+9oBfe8EMfWEl3rnDaKWX9kZUPOPL0CRK8PUBHgV49DmEfdnvwXqZMxiQdOCWbqnuMfZetyLd6EIHLSyoApF+guoQBUjr1kOeMAFSTAyCRGD8eLSNG+fRAhL3ZMUTNYuPFiMlW8BpYz3snhBk2oesqHBQzURl9Wp0rlwJadkyhJKT8XXs2L/f+pytGdt3pBcqCw89wuaMV0i5LCD1ogUpF0qxO9OsTWSiOHMm2uPi0J6UhLrRo/8GWK3WJKfTiTdmoS9xVy5m7zZg7l6TBqu9NE1ctAhtU6agZfJktCYmoio6+rdcUlISQ8hutxtFxcXijPVp+ri1R3hCHIBvGDMGvgULNNGbkIBv8fEoi4r6HVBQUBBF1BM9xLT/f2WGc9SoOjaxYuRITbQQ/IgRwV81l9Ohf930iQAAAABJRU5ErkJggg==',
+		isFeatured: true,
+	},
+	{
+		id: 21,
+		title: 'Bytecard',
+		description: 'Unsp inj intrns musc/fasc/tend r lit fngr at wrs/hnd lv,init',
+		location: '58 Waubesa Drive',
+		date: '4/28/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAH/SURBVDjLjZPNaxNRFMWrf4cFwV13JVKXLuta61apIChIV0rblUqhjYpRcUaNboxIqxFTQgVti4hQQTe1C7FFSUmnmvmM85XJzCSpx3efzmTSRtqBw7yZ9+5v7rl3bg+AHhK7DjClmAZ20UGm/XFcApAKgsBqNptbrVYL3cT2IQjCnSQkCRig4FqtBs/zYtm2DdM0oaoqh8iyDFEUY0gUvI8AdMD3fYRhyO8k13VhWRY0TeOAer0O+kg2m/0LIcDx9LdDgxff5jJzKjJzCmbe6fi0anEABTiOA13Xd1jiNTlxfT01UVB/CfMG7r/WILxScaOo4FpeBrPEfUdWDMPgmVQqlTbgtCjls4sGjl16PxuRny5oGH3yA7oZoPjR4BDbqeHlksLrUa1W24DJWRU3Wer9Qw/Gk+kVmA2lGuDKtMQzsVwfl6c3eE3IUgyYeCFjsqCgb3DqQhJwq/gTY7lyV61Jdhtw7qFUSjNA/8m8kASkc5tYXnN4BvTs1kO23uAdIksx4OjI19Grzys4c7fkfCm5MO0QU483cf5eGcurNq8BWfD8kK11HtwBoDYeGV4ZO5X57ow8knBWLGP49jqevVF5IKnRaOxQByD6kT6smFj6bHb0OoJsV1cAe/n7f3PQRVsx4B/kMCuQRxt7CWZnXT69CUAvQfYwzpFo9Hv/AD332dKni9XnAAAAAElFTkSuQmCC',
+		isFeatured: false,
+	},
+	{
+		id: 22,
+		title: 'Lotlux',
+		description: 'Lennox-Gastaut syndrome, not intractable, w stat epi',
+		location: '098 Bluejay Alley',
+		date: '5/1/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAADGSURBVDjLY/j//z8DJZhh1ADsBhyJkKs44Mv3cI8Ty7+drsyPgLiCaAOOhMuVXyy2+Pl9a+//f9d2/P+6ouj/6WzdP7ucWXKJMmCnC/Pdb0DN/yf5/v9fLvj/f5vi/9ddDv+B4veIMgDk7H9n1/1HBu/rJf6DxIlzgSvz4y9zk///B2r6Ucbw/x0QP8xg/g8Uf0KUAYfDpRpOpqj+flau+P9VJev/uymM//f6svzZ4cpcRXwshMtWAG28D42Fx7g0jyZlCAYAAc7hFvdEsKgAAAAASUVORK5CYII=',
+		isFeatured: true,
+	},
+	{
+		id: 23,
+		title: 'Quo Lux',
+		description: 'Unsp pedl cyclst inj in clsn w oth pedl cyc nontraf, subs',
+		location: '10411 Upham Road',
+		date: '9/5/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAKXSURBVBgZBcFNiJR1HADg5//Ou767jblWM9qOyWZSXlqCNMpYWbKo3VMEhYJKEn1Rlzx0CSmIIq20o5fCQ3QSskOXCPqEuhQWXkLsg3V3xtVN23LW2Z1531/PkyICAAAAAAAAAOSw//CpY+Ug7buyXA5fWwEAQAUAjBSsG3Hy0/f2HMqhrNL+t17Y3tzQbKaUcoFABZIIIqhAKAernnnzi4M4lMOVa2XRbDTTS8c/1tq8XlGrlFGQjcoSWSLLklqWzP521tuHXtQvU4IcllfIstydW2939wOTallNREnKSUmWkpQyWZYZqmWqCoAcoEJRDBseWUsEAAAACIEAOUCF/mpPv3edlERUqihVVSYhItRSabC6LKICkANEcHmp7e9LS/rVQBWlf1cWrJa3SYANxVXXu0tEBiAHiODiwg2GLvSACKIpogfgqhEXLgQAyKFCBFltDRVl+4zG6h9aG27x+9wlvc0PS8OjivOfmdnS8MnJE26OKKampuo5QARRlRZ//dy9t4Y9Bw/odru2zs356ofv9a2x76nHFUO5TqdjzdDPw1/+te6NHKKqJLTPfmPHlhvt2n3AK4eP+O/iea2xMRMTEzqdeR8ce1+73XHf/Ts9snvK7Ozs8xkkEB7afpfGTevBa6+/o98f2Lt3r8nJSTMzM6anp/UHA08/+zIYHR0tclg3ki1Vg97oHZuafjnzEzj14RFVWTp69Kh6vQ663a6qCh+dOG76sUfNz8/3UkR48tVT7w6qtHPpn4V71l79sb7rwR2ptWmT+nCeFhYWnDt3TlEUxsfHbdy40XJvEJ323Op33379Z4oIANu2bauNjY1N1Ov1061Wq1kURQ3Z4uLic5hvNBqnMbSyslK22+3L3W73if8BE1ob/QNlaFEAAAAASUVORK5CYII=',
+		isFeatured: false,
+	},
+	{
+		id: 24,
+		title: 'Redhold',
+		description: 'Nondisplaced fracture of pisiform, unspecified wrist',
+		location: '45 Prairieview Junction',
+		date: '10/21/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAIWSURBVDjLjZNPSBRRHMf32rVTdFOsDkJEhODNLGqXukgJpmiEURBGdEnbskNktrhCRQuaLEEikUhlbK5EiZmxjbWwfxvL0dHdtdlCx3VtZxyaed/eG5qwZct98DnM4/f9vN/M+40NgK1Y5p7tPTY9UIeZ4Q6EvIcQ9pQ3FR1O+kvqpbFWZCI+YG0RK5EhBNz2dFHhxIvSWjl+TdOSzyGNd0GJPoE+P4nogzPqpuGUv8wux64ahjIJZbYFy1Pnwfc3I9LXuDR1t2bnf8PC0xKHHL0MQw0gJ5yEmmhA9pMTYm9VOth9cA+rsdV1jm6lDFA0Cizabl6H9KH1d7gJ6kI9VmNXIHiqs5/dFfusQ5hg+PGbL/ipG7CWxPvAv7wEQ5mAKjZjPdGIDO2E9xwmgS7Hjo1dMoFuEIKMQvAtS8C9eoT4iBNh/22kuFrkxAYsh9ow661Bp9fHuqv4S9DiGTdPTa8SfM0QDLoOANl5TN8/jjHndrzrceCt2w71uwDXYJAJjhQULNJwQia4cXY3tMA9aNwdcB37MXRuF4Ih3qwpKLBegbUvLhGcqN6GW6fK8dp1FBP9F/AxvoBwSjcF7Q/fM0FlvsD8iEyycbFuQknDFLPl40QWnqFsyRdY16hbV+gdjf8Rraytm890P0opy5+VggNECwVJzllBldL+r2ErFO7uHYmx4A/Kxc1GPT9cSpmjnC72L/0FRS76cD+dhSEAAAAASUVORK5CYII=',
+		isFeatured: true,
+	},
+	{
+		id: 25,
+		title: 'Span',
+		description: 'Disp fx of anterior wall of left acetabulum, init',
+		location: '447 Helena Court',
+		date: '1/11/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAEuSURBVDjLpZM9SgRBFIRr/EHXwGVFAxUPYmTgMTyEoblX2NwjGG9i5B0EMTIQFWTBaHTeqyqDHmdX0FlhHzSvO6n+qvp1ZRvL1AqWrLX5w93VuSXBJkhCKovMrpOJk4vr6lcBidg7PgVMWIYkWATEbv9wc/03AZkwiY/3J7i93STcEmxu7yOz6ReQCDFhFTExIRJWgox+gcwot2UUAmY5kzADzkBEL0Er0PUZReUGIhcRNAU5muI/E1JiZzjF4cEbHp+HyIx+C2otdPgqfTodoP5c/w9BgNn8sPD6sgFzFVu76ieIaGYhMtrwWiGVPRkLCLJkYJX0vyms8rQLMigWBqMj2IKZsFSWCbGM83xVtjGZTFzXNeL2spv3+fmf/QnCJu5HZwCA8XhcVct+5y9H3H2zjxE/HwAAAABJRU5ErkJggg==',
+		isFeatured: true,
+	},
+	{
+		id: 26,
+		title: 'Bitwolf',
+		description: 'Oth fx shaft of unsp femur, subs for clos fx w routn heal',
+		location: '45327 Bellgrove Alley',
+		date: '4/5/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAKjSURBVDjLlZNbSJNhGMfnTZddJHS4iFJzdhFSRAc6WClJNmbMZrA+0x0+dQesXGpTnDo3aylmSToSgqiMqNTmFC1aOVMHuSG6DS22SK8aMQPZwanj375vMPuoC3vhz3P1/Pi9z/u8LACsqampc6MtJD6ocvBOtBcsFuvwBrObak632Wz+z9Yx2K0WDBelYW1tbUOhISqVapPRaBS+vV2K8a5SDBemIRQKMRIIBOD3++NZWlrC6upqDMA0GMEQwWY0+3w+tKvL0MLZCm3ONqiILHyZm8PKygrTYEhbirGHJRgSsLG8vEynpnselZUN0HN3QHM+EdpoLTu5GdcLL6wD4gYTMYPBS2yEw2E6qqfzqMo7gTtkBh5X5qI8exeq+ftBZiYjGAwwDQYbS/CpsxgD+ak0nUrVk++olpHwOYwIzprw09KBXy4TepoKooBg5J8G/Xmp9IAoAHWNtvudGDdIEXC+QGj2DTwmHWqUCiwuLvqjgIPrBvXFGH1Aop+3J95M1j8HJzcPdTo9tEoh2m4Kobh6A8VSOe62tiIhIeEI02BiBMbcFBpgNpuh092CRCIBn38Rhq5HGBh+Dy6XC5FIBJlcgaPHjhviBqZaEpZ2Cfo4KfQAv907A8szHdSNeiiV5cjn88Hj8VBQQKBILEW3oQme1tMRhoEtatCbk0wbeAfq8bKWi8tiBfR6PTQaDQiCQHNzMwiRFGpxNjwdXM+6QbUEH9tE6M2OAcIhP34sfIW6oQlyuYy+ikAgoGuJ4hoW3C5kpO88+5fB66wkRCIR+iWoQVKrS22jy+WC1+vFnye+BxUVFUndnH3ou3IIrzKT4Ha7MRddV6fTiZmZGUxPT8PhcNB1cnISdrsdVqs1BqBAVISpW07VHdiukbATyf/5zr8BNamLpjmUSloAAAAASUVORK5CYII=',
+		isFeatured: true,
+	},
+	{
+		id: 27,
+		title: 'Domainer',
+		description: 'Inj right quadriceps muscle, fascia and tendon, init encntr',
+		location: '57 Oxford Center',
+		date: '12/23/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAHtSURBVDjLpVPJqiJBEHwf1f/UH+DydBTtLxBRUAS9eFH04MGTINIHUQQRt3I5eHBfW20XFBVzKgq75TGPNwxTEFSTXREZmVn1QUQf/4M/Av1+X+r1ekq321U7nY7GGNNarZbabDaVer0u/SjAyTIns/V6TefzmR6Ph8DpdKLFYkG1Wo1Vq1X5W4EXWb9er4SF/XA4kK7rdLlcRAyilUpFL5fL8heBl21mkHe7HW23W1ouV7Tf72mz2RBcGSKqqrJCoSCZArxexThgkEejMbndbrLb7S+xpQDWYDCgbDarmAK8WSqUYVXTNJrNZoJos9nJ6fzFd5uIow/oBwTT6bRqCrTbbQ3Ngl0c/Px0CDKIgMPhJKvVKsqAi9vtRolEQjMF+JiEAOzj0Gq1Mi0jKxxNp1MBw0U8Hn8LNBoNFR1HGSAhKzICFotFwOVy0WQyEZMZDocUi8XeJfD5Kvj5fD5FBq/XS4qikMfjMXfERqMR3e93KpVKFIlE3k3kc5WKxSJDD7AMuxAdj8eCiKxIgG9OZhzSl4uUz+flXC6nY+Y4eDwehZv5fC4uEzJDhBP1YDAof3uVM5mMnEqlGC9JNA49Qc2YO788xInM7/fLPz6mZDIpRaNRJRwOq6FQSAsEAhonqT6fT+Hf0l9f47/iN5+1McdPrPQwAAAAAElFTkSuQmCC',
+		isFeatured: true,
+	},
+	{
+		id: 28,
+		title: 'Bitwolf',
+		description: 'Oth fracture of base of skull, subs for fx w delay heal',
+		location: '164 Bluestem Center',
+		date: '8/6/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJMSURBVDjL3ZJfaJJRGMaFYBdF910XSSukaRdFF7Mxkpozc0UI1UXksNQ7V0O0QocshElqTYL4ilhjzE0oahT4ZToHFWUb5Za5zyWNsk3dYNvxX/R0zgJZsHXTXQdezuE9z/N73/dwRABE/xKi/wjQ2Ni4xWAwXHI6nQWO42Cz2TImk2k/jW30LLAcu2Mapv0DIJPJ6lpbW10ejwfZbBaCICASicBut6etVms0mUyWWC4Wi4FpmJZ5agCpVHrMbDYvJhKJglarHVEqlT/a29vh9XphsVjg7jqP8APtzws6bWhgYCDDtMyztgOXw+Eo+nw+vVqt3iyXy5d4nkc8HsdoNITEUz3yqQAmH53yMA3TMk8NIJFILur1+oXe3t6Otra2Z01NTRWFQgGNRoNbXScwP9WH6vI0JgKa6jBn8zAt89QA9XSpVKqpnp6ehcHBwXwwGITf74fDZsJ44CRK849R+upGQXiC8N0zleNq1UfmqQHEYvEm2nZDS0vLjE6nWzYajUWTyVgO31GP5ZJDKH1xIHp9Hyr5IcS5ZvTbD5mZ56//4H3/0SMzvBXlufsg0+cQ7ZaimOnEYnoEr28enHzlObB1Q8D4vcN177jmNwv04YqfO7DySfs7UmfpKDeQiXgx5pJd3RDw9rbcmIm6Uc76V6uvpE7TEWSrO0kbQL49RLRL8j1i37N7XQBtb5bkBJQLPEpz9A3mAmtiGNWlD5h92YfnVnFgXQBtLxfrbiCjzr2EViK0EnlxrZ6Er+wi1ER4y07Cd+4gocvbR38Bt2OvTVFKHBsAAAAASUVORK5CYII=',
+		isFeatured: true,
+	},
+	{
+		id: 29,
+		title: 'Redhold',
+		description: 'Other injury of ascending [right] colon, initial encounter',
+		location: '90 Mitchell Avenue',
+		date: '6/27/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJ/SURBVDjLpZNLiI1xGMZ/3/edOWZojjkiudbMuEVMM4SMBVlbSUpZyAIhG4qlkcJWycZOSslCMTNFuYVpRrkzLuMy5tA4xulcv//t/Vt80ZTLxltvz7N43vd5F+8TeO/5n0r9JNLTs9A7t8FbO0WsfSvWdtdv2VIAKJ45kxWtt4rWh5xSQ6LUyeldXVcAAu890t29zzt3hPp0ljBCyiVMofhMjNkmWldE64t1U5qWTpjXiiuVqDx8RDX35ZxTalfgrl7d6K2+HC5cQBBGYAyk05jhYWrPX350WpcbWpsX17e0QGEMwgiasnzv7eX7oyfHUmLt3mjWTIJqFXJfwAlYS13zHKKV7XN9rInqG6D/AYgkBo0TyXSuId/Xvz0lxiyJMhkYegfGghdwDl68JpycgSiAwTeAgLYJ5scIWgUXx5mUGJPGOYgVKJUs0CZZMpIDaxNnEfAOlAFxYDSilKRE66K3dlpgDcQ1sC4ZtjbB8dxacBZSIYQhTqkwFKWu28FBmD0TKmWo1SCOwagEdZxgrZYYlEowv4X8jVuIUudDp9SJyodP7+NPI9C2FNJRIipXk4FqDVQM1QrUhbB2FYXRMXJXusdE667Ae0/++PFlotTZhmzjiknLlxOO5mDgCQRBcnq1Cm2L8M3zGO3p5fPte0/FmN0d/f13gp+v/Pnw4clOqQOi1P5sR1tj46wZcPceFMuwdjXFbwXen7+gRevTYsyxjoGB/K9PHF/vduxY4ZQ61dQ8d/XUDevBWfJ37jJy/eaQaL2z/f79a+P1wZ/C9Grz5ian1FHRek92zozg68s3l0Trg+19fUO/ib33f+3H69ZtetjZuf9fmuB/4/wDFoO2ZVesLdkAAAAASUVORK5CYII=',
+		isFeatured: true,
+	},
+	{
+		id: 30,
+		title: 'Bitwolf',
+		description: 'Unsp fx upr end l rad, 7thF',
+		location: '619 Kedzie Alley',
+		date: '6/27/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAALtSURBVBgZTcFLaFxVAIDh/5577jwzj0wSUmqMtKIiBltbbJ1FUCxVoQu3FrHGVRU3BVcKrkTcKOhCUOtOAyJ23WIQtFawpoooZWKJpnbsNJN5PzP3PO5xArPo93nOOfasXCgfAz48mE8UhzpiqCN0FLFrog7QA+qABVpAA/gC+FYyERlz/NC+qeIbT85xt4GKckMV5Voju6A09ELLzXqfi38PTgLnJBORMfPZmMeectsSeB7SA19CPBAsxgW+EAQ+PLaQZH8uXTj/S+UDwYTVOitxmAh6yqOjoR1CZwSdETR2Yadv2fPm6i2KB9IszQZzkgkVmvnLZcuP21VeO1rgs+tdAu1YOZxlKiHw8fA9iADPdvn5nxa/3epUBGOH39sqjETu2UJG4oUwDB2RcmRSHuevdtjpWgZhxEBH4KDaDflobbNrlVoRh97demHpgfTth+5J5ZpNw5kjWQxw6mCa7aYlk4bPr7X54XqfkfGIHNjAYpQ6cOH1x9fEw/cnP13M+Ik7bc3ZYxniMR9PQCElObmYptox7E97XK0MscbhHJgwxKrQMiZ+v9Y9u3knHBUCn08ut6m2DQJHe6C5WOqQl4KbVcXR2QSxwENbS38wNEapLmNi4/0Hv/r3zxvHN0p1YnGP1e/r4ODr9TbZlKBTU7xSnKG4lCUZQKMfYkJVvfT2c44xyVjKr6lpEUI3g3UOPIE1lu6O5aUTcyRjPjhISUGttYtVYYUJuXxudRZ4p/jIvZx+eoHvSopmz/Ly8jyJwBFIkD7EfMimYLM8xChVZUJapU4Ap34tbdHalfRDh7aOUHsoE2FsROQchVyOV5/Zx3ZjiFWqxoS0Wh95/qlHk2+9+AR3sw60dSgDOPj4UoVUAL3+EKt1gwlptd7arnf4cq1EfipJPpsgn46TS8fJpGLEY4K4FJxenicuodbsYbX+jwkZGfPNlfWNhSvrG/cBM8AMMA1MA7lELAgSiYBsOkk+m+KPv8o3gJ+Y+B9yFXCQeyJWrQAAAABJRU5ErkJggg==',
+		isFeatured: false,
+	},
+	{
+		id: 31,
+		title: 'Span',
+		description: 'Fibrosclerosis of unspecified breast',
+		location: '15 Butternut Point',
+		date: '9/10/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAADdSURBVDjLY/j//z8DJZhhmBvw41KQ07dzbk5kG/Dtgu/Jb2fsT5JkwI+bqZw/rsfYA21v+XE97f+PS5H/vx5Ra/98QN7+824ZTiIMSJr580bW/x+3iv//etD9/+fdpv/fzwX+/3LY6P/n7TIzCRtwPYYZaPvGH7dKgAb0AA1o/v/tQsh/oO0bP26TZiYqDIB+1/1+wef/z3vN/3/erPr/5aAOyHZdogMRGPIe38/7gvz+Gej3z18OG/8H2u5BvAFn7GO/Htdv/3pAQejzXjkhoO3tH7dIxY7EpEwMBgAr6O5Q8udliwAAAABJRU5ErkJggg==',
+		isFeatured: true,
+	},
+	{
+		id: 32,
+		title: 'Transcof',
+		description: 'Displacement of oth bone devices, implants and grafts, init',
+		location: '42336 Springview Parkway',
+		date: '7/9/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAKZSURBVDjLjY/Na1R3GIWf+zV3JolJ40iMptZMGrGtVLoQpK66qagLV0VwI3XThS4EQQQ31Y34F7gQFOqqdCMtdGGCRXAhQmskgVSNmYAOmkySmczHvTP33t/vfbsUkyl44OwOD+dxVJXNSWfHJ1X0oSqjKuKpkKjoPMK1/m8rv38wVtUt7cx81sre3VWN51Tbj1Ub05qt3NXmo92vNm99ekStDPifHILuWzB1yOq44TbEyOebtz0BYkGSCk62AdrFdpYgcbFmq+7/PFBs8x+ylftI0kbiBkHxMGLgIx8IbjhGMPglmiwjQR+igjWyFZDM7B1U0XkVGVXBU6uJow6m9S+mNod229i4RWHiYG8FsXLFH7k0Fuw8CdoFG4VZtEj84hqFHUfQ/DJeWAc12IxeAL3sjxwH0wTbBNvGL4yQRet47jzaaWGjFoEzgs16KFgDSISaNmiKJKuQdjBGyA1NovkqNqyxOrtB5S/D4u1ArKcV4ObRKXPDFyPYaAG78RRJV9DkDd7gBDZVktpzNI5Ye9Ygqo1x6MzPhKUDTmd2as/8o+nrT84WJlybKU5QxCuU8Pu/wB/4BtRiMiUc3kdu+y7e/F1l8rtT5Bcf4vxymr7yPcb3Fp24Zn70rREc1yWLF9DuOzRdIRw7gUnvkUVr2HoVUxfyoyU4cfG9+9VdSJvAtxm/ddZmTuW3fYUEw6DjxOtlvHA7tm83+Z0H8IZeEj/7k/4/zpF0lomBVtNDC07Hu/BD4VM3N3jMzQ/g+A5ZWqO1+pJWZeFB4/Xz+vqLpzt8vy+qvqqGbuCSeRGNdaW87OEPuVNO+ddiSQw/iZXvreVrMcyJ1Wmx3Dp4vr4EsHR7uFSby9/ZKK8dISKnBdKg6D0e2J87+x98zpgrhVsXPQAAAABJRU5ErkJggg==',
+		isFeatured: true,
+	},
+	{
+		id: 33,
+		title: 'Bamity',
+		description: 'Traumatic compartment syndrome of unsp lower extremity, init',
+		location: '13666 Steensland Street',
+		date: '1/16/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJBSURBVDjLpZNLSJRhFIaf/1JO3lAbZyjDbpiXRC1FFFsUtJSwhMBsFy3b2CZaRAiuWre2opDCBCtalBl5qzSjhAwkqlWljRZizuj/fee0mHKmaFF04PDCd+A557wfx1FV/id8gKvDX8+pctKqbBERrIARwVrBimKspKXFGsWKTHQdL6n3AUT1VGt9TvhfOp+//qZqbQIrEgbof3sZIwZjDYEYAhuk1Jq12pnGLoLAZqQBkj4cqzjxV92/JQyBsSkPrBUAekbm/gpwqK6A1XSA+QEAaNsX4cboLEebomtvg6P3KcsYJVrVgbc+l9hi4tcJAiuIKr4HNx/P4XkufU/mcFzwNcHOxF1C0SaejfYwn9tCeVEmq0ES4P5cQQHfc2htjOC7cKQhwuH6CE0bx4kU1ZG7aQ8FyyMc2LGY/FojKUBgBRXwXbgz+RnPS+q9p1N8mu4nJ5yHXbxFuLyNqaFurDEo6QAjqCrrPGiuLSTkOzTvDbPbGSBa1gKJ54xfuUZ2XpyMhQns3DhZGX4KYCRJ81yHgZcxAIbHHhIsLZCTv4ysvAMV7NIE2/d3EJ++hGfjaQBjkh64cLA6jO8aovO95BXXIMtTqMSpbS1FVj8QCs1QuK2JamfwNw9UqSzO5uNCnM3Ljwjll5CZE0PNPDgek30zgCCJGQp3baVs5QFDnZUVjqpyuvv1iAlszaqVrMBY2vUsDe0X8dz3qPkCpF+si7ehlNlXL5i53dnr/Omcxy7UxtRKpoqiImmpa4oIqjr5HZAwT/Ha9ghQAAAAAElFTkSuQmCC',
+		isFeatured: false,
+	},
+	{
+		id: 34,
+		title: 'Latlux',
+		description: 'Retinoschisis and retinal cysts',
+		location: '9265 Pennsylvania Way',
+		date: '6/16/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJFSURBVDjLpZNNSFRRFMd/986dUaeZIS370BRbCKbgpiwIKYhWfSwKgqhNQau2bTOodq6CFkWbqBYtgmAIg7CgxL0iaBYZSYIfYfP9nHffe/e0mElrMW26m3s55/z+58/hHiUi/M8xjRLuprqiE9zFsQ0NNNerdRy0gzCquHlGVEMHd9QKx27tpucEeKtQ+gRhGUwCdAz8Ary/t9rQAY4kmQ5IdUDnIfCPw8IbWBwHBHb0gCXZWCBBiM3B/Guw67BvCAYvQ7IVpp6B50GZ0HweG5puzvT3K6X/oIXOmInpTA/0noXiMnx8AaXvcPA6rC3C2iwUwSjRfV3Dj+NKKZAajFIwlYXiLEzOQO9pOHoD3t2GuSwMXoC3C5AHQyhVnG3yVx4Q2RjoDEqlaQFoaoX2AVicAOdg4BJ8uA99pyC1t+aAQGlxlsgmECfY3Cze8heCeDduOovoMSTYgLkssVQbUi1gXl2ke8958DAGJc0u3MB6ILZCUBbah0dJBD5kusFFEFmIIkikAMW352dgaRwMniHQmJZdbD9wDXAgguDwZq6iKkuIjtVm4wQcJPc/gkIBXj5ZcoYRQyAiURXnzSBRAYlKSJhHtx9B2vpQYb4eLyJRBenoIkglhAnp0oDBR8SFuOAHEhZqxWG+/s4hYbEO1wVcFRTh1i5YEUWEhD/rYL3jpljpb1iqELL5/41Ylwu99WRQTqRxaS0SB5cG2YlEPmARXbuVjoj8soh1/pZA1R/9+vDcYYSTKNL/3F0B1KTFydPfoV+5q0ZcY8+j5QAAAABJRU5ErkJggg==',
+		isFeatured: false,
+	},
+	{
+		id: 35,
+		title: 'Matsoft',
+		description: 'Pnctr w foreign body of thmb w/o damage to nail, init',
+		location: '2 Summerview Center',
+		date: '11/13/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAK4SURBVBgZBcFfaFV1AADg7/zO2Zy7A3fVebdEQ2yCoeVfmmhQGlRgmCg0sEAoeivvWy/BiigYvoi9hPYgEfQYKGVgiIhaaJPSVlC6hU7v9Pon166755577+n7ovRtvZ3LjUiUAQQEAAQAQBO3HWrc8HHSudyIwRfLShuJOwgJUUSIiAIhIkSIiRAhb3H7Urnz++MSibLSRtKY/s3EuPsH9y4TAnFAIEYUyHN6FrNkA0uOlxMQdxC6WL8bsJusxt+nuPYdrVlE5DkiHk7TtYg2QRtRwuMKV79l4hy1Kh0Fnn6dVw/zxBAgIsuoZzQbNEgEhIjHFX7/mhCRBBavY92bLFjOcwe4fIRrp0ibNFKyFnWCgID+zez9iu2f8NQuZiY4/QE3zgIb3qW0jjSl3iRr0iBoQ0yEjgJ9q3l2H68cpncFY1/wzxlgywHyedQzshZ1goAID37j5PuMHaFWpaObbR/Ss5Szh5idprOHNTupN8naNEgEhEAemLurfv20cxfGXElXKi7qc/9en709tyz88XNfTixSLBY99JJnJqu2pbFEGyLiXLap7JsT5/2Xd9r31htqtZqpqSnHf0p136l6bd9+cRyrVCrGxsbcbKySgJDTt8aFyYbrlX/tGR527NP3nJ+c0z8wYO3atSYezbl48KDp6WlbV5Zs27vfyckdEiBi7q5fxy8pFAqgvHrGmT8bhoeHFYtFs7OzqtWqo0ePKj8/6BcUehdKNJA30TJw/5yfHw2A0cvztNoNo6OjCoUCqNVq8mZm9MRFO97ZqnrrpvijQb365w8pDpo/v9vZ8WnpXGrV+i02DW21bNkyrVZLqVQyNDTkhe3bDawY9Nf4VdfGrzyI0pf1dvYb0a/cajE52+Oz25t1L3lSx7wu7Zw9d36wMJtzbOkurSjI0rp7lamZBTMPdv4PY0MOogadRGMAAAAASUVORK5CYII=',
+		isFeatured: true,
+	},
+	{
+		id: 36,
+		title: 'Tempsoft',
+		description: 'Adverse effect of other topical agents, initial encounter',
+		location: '08 Golf Pass',
+		date: '12/9/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJwSURBVDjLjVNdSJNhFH62fWbNWboGKtmipVksf6AsN2dE0K833ZQwiu6CbgLpxgg0QiS6NKG6SMJCyAujCCz7UyhRySgixLT8W9NtLpkuN9/vfc/pwtZFzvKBw4GX5zw87/kxMDOSIdy138SKPzLRLBEfyDrSo5LxjFgBrLhxTfYx55qsox5WdA4rEpmXReiFxxrodM8pEWEx+5n9j0vDvoe7rcm4SR2QopZ1dm+6wWiElmaFeavXyorqV+Ug8MxdMt1Rplgt8mKgiUWomUnM8PiDYjnWWljyXwdMdN+yo9pIMoqvnW0YeXoXpE8jo+iiiRTd+GcTAx0ub0qmy5m25QRik9VgBpiBuO8a0vMqkZpd4Rm5U+BNKhDocFmIqNHsqALJMEC/q5lBpKOm/SSu+PpAiq4P3dxmWSZAiprN9lMbUzMd0GfaATDWZpgTH0Ncn0OubSdqWdsk4/rlRJ2BmTH1ZF8eEw3mHH+tqdgH6MHbuNQ3DrAOQRJCSuRk5qMo14P+sVf45OvF1YjcvrduZlhbWhpqtRSc15iiUPO9ABMkCRxynoVigiIFAsMfmURhbjmiIoYL8e6hhXqjSfM/Kq00bSgqTc+vgpzvhvo5AACISwHFhPHwMHSSkKRDVzrmFudRsrkCUX3B0D/6Rmik1K2MvNMAAM3ihmZxLQl0l0Mqiaz1dkhSUEyYikzAasnG+8m3+B4cRVPQ9M0w0VbcQorOsCKQIiRyjZSICwFBAnEp4LA5UeY4jHcTPRgefI66H0aYpLpnWOka/8auemNoj/2grevLywFBcPsbWPyZwmrgqDWEFJlsMVIpwQaWifdfoJOVMsp2n0QAAAAASUVORK5CYII=',
+		isFeatured: true,
+	},
+	{
+		id: 37,
+		title: 'Regrant',
+		description: 'Leakage of breast prosthesis and implant, initial encounter',
+		location: '70594 Artisan Point',
+		date: '7/2/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAANKSURBVDjLXZN7TFNnGMaPg2aJWUyMMfMf/9A/hkbjksVtRmMy75ekJCZL1DldzNwmc8TgEHSitEYFEaeiNsK4OHB1FihyE0Gw9VALFbGUBkYpFKSIrW3p5XCwHNo+e8+Ja8y+5Hfy5vne5/nO9+YcBgAz1ch8QCgIC/GM+FDU34e0j9/tm4ik/3TGr2VkRN5U175xwatDsOtbt6lObkhvFfSE7x36zrpdbMic4p3uz/JRv4lYLAW47zKngqb9r2ZcjfB0HPQ/16zlcg1e3Ohyo6TntYRY/8460KP5jA9YlTzX8+sb8nUTMsZ5mzkdsmT5XO0H/cY7a2cLOsZwzzIBNTsKlbYPBZV9uN3mgNo8jtInOvxTty067ayMuO4vt5E3iRkuZNYPFM21PS1exefpHLhrGoNWN4IhZxDeIAdPcAq2sSAqWoZQ2j6Ce7X5sKjXhPuL5r0gb5I0iPSS+kuZ1VYUGUagodPENRkIYPDVa7ylWoSLAbcahqDS23FGw+LnMuN5aQbiY19ht/54lRW3mmzop5P52Rg4nsfN0jK4KSgUDqO6+THYwQByNL0Qe0VPPODrq6wvTf0CF/+ywD0tYDIcxQxtnFQocUdbi8xsJVqMJlgDAo6pTBB7RU88IDmnyfdjsQmKMjPGOIFConAGQjiXf1kys+ZeeGaB514BqVc7IPaKnnjA9jNV+j1XdFBWdOOJPYAJurQzJOCB/ikcviBcEaC38iYe71+G1o0yaOWLcP67XY54wIbjfyp2Ku7j6B9G5Gps8NDAJgUgFCWotteo0JuxHm8bLyPW/xD838fw7MiqWMumxFQpYF2qajXRt/V0PdIKWVzUDMA84gdH8+B4Aa17l2KazCiQA5nzgQtL4Mn7Cs2bExzxb/2LH/J/Ssmt4DefqMGB/EdIu84i/ZoBaVfapdeOdWvx/vJnLyI9MRYPMBqNG6xWK9p0bGTdkWJ8/osaXx7VSlTuWIipku8BMoUzGEwSLw8noHlLwrhkbmhoWEhwdrsddfX1vk+/yVKu3HNKT/hEzu7eNNp56JPoROYSvDkpw/ChOWiTJ0Yebkn4TQooLy//iBggZogV//+VRQy7F59o3ipzitdpSl4QeZC8IEfU/wVxe9rJJAH4hQAAAABJRU5ErkJggg==',
+		isFeatured: false,
+	},
+	{
+		id: 38,
+		title: 'Fixflex',
+		description: 'Other problems related to lifestyle',
+		location: '750 Sage Hill',
+		date: '11/3/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAALnSURBVDjLfZNLaFx1HIW/e2fuzJ00w0ymkpQpiUKfMT7SblzU4kayELEptRChUEFEqKALUaRUV2YhlCLYjYq4FBeuiqZgC6FIQzBpEGpDkzHNs5PMTJtmHnfu6//7uSh2IYNnffg23zmWqtIpd395YwiRL1Q0qyIfD56cmOvUs/4LWJg40auiH6jI+7v3ncybdo2Hy9ebKvqNGrn03Nj1+x0Bi1dHHVV9W0U+ye4d2d83+Ca2GJrlGZx0gkppkkfrsysqclFFvh8++3v7CWDh6ugIohfSPcPH+w6fwu05ABoSby9yb3Kc/mePYXc9TdCqslWapVGdn1Zjxo++O33Fujtx4gdEzj61f8xyC8/jN2rsVOcxYZOoVSZtBewZOAT+NonuAWw3S728wFZpFm975cekGjlz8NXLVtSo0SxPImGdtFfFq5epr21wdOxrnMwuaC2jrRJWfYHdxRfIFeDWr0unkyrSUqxcyk2TLQzQrt6hqydPvidDBg/8VTAp8DegvYa3OU1z+SbuM6dQI62kioAAVgondwAnncWvzCDNCk4CLO9vsJVw8xqN+iPiTB5SaTSKURGSaoTHHgxoAMlduL1HiFMZXP8BsvkbO1GD2O3GpLOIF0KsSBijxmCrMY+FqgGJQDzQgGT3XrJ7DuI5EKZd4iDG+CHG84m8AIki1Ai2imRsx4FEBtQHCUB8MG1wi8QKGhjEC4mbAVHTx8kNYSuoiGurkRtLN76ivb0K6SIkusCEoBEgaCQYPyT2QhKpAXKHTiMmQ2lmChWZTrw32v9TsLOyVlu8Nhi2G4Vs32HsTC9IA2KPRuU2Erp097+O5RRYvz3H1r3JldivfY7IR0+mfOu7l3pV5EM1cq744mi+OPwaRD71tSk0Vsp3/uLB6s2minyrIpeOf7a00fFMf1w+MqRGzqvIW/teecdqV5a5P/8ncXv9ZxUdf/lCae5/3/hvpi4OjajIp4ikVOTLY+cXr3Tq/QPcssKNXib9yAAAAABJRU5ErkJggg==',
+		isFeatured: true,
+	},
+	{
+		id: 39,
+		title: 'Zontrax',
+		description: 'Oth chronic hematogenous osteomyelit, unsp tibia and fibula',
+		location: '645 Scoville Pass',
+		date: '8/29/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAIlSURBVDjLpVM9iBNBFP5mf0jIIsIdMSsR90L8iwfWlhaiaCHBNB42ioWg1QmChYiFXG8l5LjiIKCxMSg2ewQFlRQBc4iIiIoJ5kgMJCTh8mOyu743sF70Llg48PFm3rzvzffezAjP8/A/Q5tc5PP5ACU8R1hwXfcI2YMEmrrvyX4mu0LIJ5NJx+cIXwGRj9L8YTgcPmaaJgzDQCgUAu+32210u11UKhU0Go3X5LuQSqWqksgBDNu2X5TLZT7OmzZGo5FXKpW8bDa76vMUXwot5iORyD9rjkajoEPObOsBOWXGer2OYDCIQCAAXdelr9frodlsolqtIh6Py9ipCTRNQ6vVwmAwkOvxeIxOp4PhcCj32LdjAr8mVVWlAg5mUN0yid9sJjuOM10BB/skIYQM9n2KomxToPydwCcweM5gsnj7DFi+gk+X4zBzN2ftU9qtHRVwMIOJXA5bt5jDzI8iDl+8jkBsHv13tvLh1dq9tZP65h8KGJOn+3IHbx7h0InzCH55CbG6gNDXJ5izZlVPeIu/FTCBr4peImq1Gvr9/ladTbpaMwacvbHVvLt7obpibrKES4VC4XEikTAsy5LvgJso38YeE7315zCeXsOwX0OP4rsdKk/Fhpj8jZlMJkaJbhNS1PHd/Be4HL2Uw77WOvbP/ISmfEe3Mca3uuqMBt4dMe07p9PpXUQ+QHCpqR+PF+8vbjY3rqqOsBzVqxLrwWl7vPQLOvKpkCFdDpkAAAAASUVORK5CYII=',
+		isFeatured: false,
+	},
+	{
+		id: 40,
+		title: 'Lotstring',
+		description: 'Family hx of disabil and chr dis leading to disablement, NEC',
+		location: '58612 Valley Edge Trail',
+		date: '9/12/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAALZSURBVBgZBcFLaJxVHMbh3znfmVsmmaRJehlQUqE1EQu1xKAuxForgmahFhXsxoXgokZwISKIIEJ3guii3bkQstCFuHAhrWBttRZsiaIlaFNtICbmOqbNfDPznfN/fR4nCYAn3/v+lVqjctI7JoEq4ABwgBzIiGYLrQ1967a33rp4ZroH4CQB8PTpHy5+NjN5n/duSJAhAACQAMTanYLZn1usLHbb13+bH750ZrobAAB85sbLIRv6fZXMOwcOZJBkxCjyInH04AAP3Ru4Ymt9somtx17/elcAADg0utDoLZzNxoqIkrBkKCUsFkSrszhyGqjRbJSZnmpyrrxSu7lc/zQAbMwdyyb3TIVKfS99pd2oiKiIpF5OvjXP8uCLWGU3y5s5Y/0ZlVJg/yMjXPjp7xc8gJLd/fDotaxUG8N2ruN8HUuRTusP1hsv0x1+hnIWuLHhuLIY+e7PNpVShgs+hvWrR8tK9urgyDiQYfkKhC5bi+fo7JvB9jxPKIQyD2Xw5jDLEB6cJ1hKRxTttcrAQRRzyJpQFJgFXHuR8l8fUSpyCgZo730WV24iLwyQICjaJ9WRB0fzjXksGuW+A2CB4ebj5Bu/kIoe2//MoYkPCNVdCIdwJINk4C2mz3eWLn/4xdVG7PoDrN/4htjdoei06LXX+c/dQ3z0PIy9hMvqBO/IvKNacqQonCQAnnj/x3x2ZqLavnCcav9+brdWKcbeQHedwATJwIBkQg4ONz3H373UCQAAFkU+9yalyjCXN5t8WT9LvjYI/0bkBIAEBgDM7itRdI0AAHB/fc6n7Vt8VXuHoQee4pggCZIDEwiQQIJfVyMyUXQiAQBg7c6g+cMfa/7WIaelhDkhHAAmcAgTyDu8OUJwFpPFAACwsNlc7h8ZH3270atL8ggMABisBQAkqJUczmGlzN1O0ZacJACmTp0/FQs955w7ItQHAIBAgBAACICOmV3zMPs/Y958nDUklyMAAAAASUVORK5CYII=',
+		isFeatured: false,
+	},
+	{
+		id: 41,
+		title: 'Fintone',
+		description: 'Unspecified superficial injury of thigh',
+		location: '64 Quincy Point',
+		date: '4/28/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAIJSURBVDjLjZNPSNNhGMc/7+/3Ww5LmRaho0AdQgWpbRUqHmohVIdBp6Cbp7DWpQi8VyRBt+jQpdNuHYLAWEEiORl0CCsbIlGH5YKFbXPE/rzv+3QYipIOH3h5eB94Pu/3ff4gIuzl5EZGZKe4wx7t1cTEjnElIpuXTCYjxhi01mx4rTX5fJ5UKkUwGCQUChGLxdRGjreVVq/X6evrA2ArWESIRqOICMlkcpuCbQCtNQCzy42fGQFjwYrFGLh4QlOtVncH1Go1RIRw158dCwmBvQHS2Q6sWLRtKNAGrBWuDGkqlUpzAMCZ7t+7tLOjuYJqtYqIMPejEyOCtmBNoxZihaun680VFE0BEWHsaP6/1z98m2P6xTyl1gLXHpwvFcprj2YeLt7fBNxNT/bsC/i5JJex1pJIJHAcB6UU6y05Wnv+cm7sLEc6+5ldetmW/vL+3nA8GNicRGttr+NzyRQ/IyJ4nkc4HCYSiZDTKwwdG8Q4hsHucYyqM3xyFOCmA3A7db0do94d9B3ibfY11lo8z8PzPBzHYa2cx6cOEDt+C4A7F54ROjwA4PcAjDaTRltZKS+r/bV2ktkZrM/iui5KKQqlNZZWF1hcnWdq/DnTbybwuy0AFSUixONxabZIP/mK25tjdGCM/q5TrPz6yMKnebLfi4+3LVMzG44Hp4EbQBuwDjxNP1md+gdPcFmX7csAmAAAAABJRU5ErkJggg==',
+		isFeatured: false,
+	},
+	{
+		id: 42,
+		title: 'Stringtough',
+		description: "Nonpneumonic Legionnaires' disease [Pontiac fever]",
+		location: '99188 Golf Park',
+		date: '4/24/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJFSURBVDjLpZNNSFRRFMd/986dUaeZIS370BRbCKbgpiwIKYhWfSwKgqhNQau2bTOodq6CFkWbqBYtgmAIg7CgxL0iaBYZSYIfYfP9nHffe/e0mElrMW26m3s55/z+58/hHiUi/M8xjRLuprqiE9zFsQ0NNNerdRy0gzCquHlGVEMHd9QKx27tpucEeKtQ+gRhGUwCdAz8Ary/t9rQAY4kmQ5IdUDnIfCPw8IbWBwHBHb0gCXZWCBBiM3B/Guw67BvCAYvQ7IVpp6B50GZ0HweG5puzvT3K6X/oIXOmInpTA/0noXiMnx8AaXvcPA6rC3C2iwUwSjRfV3Dj+NKKZAajFIwlYXiLEzOQO9pOHoD3t2GuSwMXoC3C5AHQyhVnG3yVx4Q2RjoDEqlaQFoaoX2AVicAOdg4BJ8uA99pyC1t+aAQGlxlsgmECfY3Cze8heCeDduOovoMSTYgLkssVQbUi1gXl2ke8958DAGJc0u3MB6ILZCUBbah0dJBD5kusFFEFmIIkikAMW352dgaRwMniHQmJZdbD9wDXAgguDwZq6iKkuIjtVm4wQcJPc/gkIBXj5ZcoYRQyAiURXnzSBRAYlKSJhHtx9B2vpQYb4eLyJRBenoIkglhAnp0oDBR8SFuOAHEhZqxWG+/s4hYbEO1wVcFRTh1i5YEUWEhD/rYL3jpljpb1iqELL5/41Ylwu99WRQTqRxaS0SB5cG2YlEPmARXbuVjoj8soh1/pZA1R/9+vDcYYSTKNL/3F0B1KTFydPfoV+5q0ZcY8+j5QAAAABJRU5ErkJggg==',
+		isFeatured: false,
+	},
+	{
+		id: 43,
+		title: 'Tampflex',
+		description: 'Unspecified injury of blood vessel of other finger, sequela',
+		location: '6 Schurz Alley',
+		date: '12/10/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAIaSURBVDjLY/j//z8DLqyaNVPLrnr5PMnESay41DDgM8Cuellm+7rTT0RiJ3Aii4snTGIiygDnupV5c/dc/QF0AT9MTCl9hq5P67qtRBng3ri6ZN2Je/9lU6bKgfgSCZPVJ2+7+CR9+u5tRBng07K2+sCVZ//lUqepCMX0y87cefnO9B2XH4rGTZQgyoCA9vUt5+69/a+QNj25f/O504evPf+jkDbNmuhADOna1Hn50cf/fZvPf7vz8ut/87JFOUTFAq9tHDiUI/u3dd8Fatxy9tH/xCk7FxCMRiGXNCmjzLmrneo2XtLJmLckffqesxcefPgfP3HbUcHgRha8Bgg5p0kANd5OWHXnf8i8C59TN7/6P3PXjf8PX//4H965bg+vZbgjXgOMsuasiVt67a+Ub4GdhHeef8LaJ/9n773zf+nZ9//Tt7//H7vsxn9Zz7QUnAZ4de375Fi3Ahy/RnnTpqdteP6/ZNGpf+kbn/7XjZty0Ld3x2XrgvVfuA08ObAa4NK09XnUkmsvHJvWHU3b9ua/Wd7yG+Y5a14HTj3yGSSvHlZW5lCx/b+QRZA0VgPkgsvDAqcffxO17MY/s5xlp7lMAyVMM1Y8DF9w8RenlqOcWVbfHPvSLX94jX0FcMaCiGu6hJhHlgKMrx83/1jypuf//Sftf5q0+u5/o6RFN0jKjTyGXuyGiQuu25dt+26SuuQBj5G3CLoaAMk4ntedg7qJAAAAAElFTkSuQmCC',
+		isFeatured: true,
+	},
+	{
+		id: 44,
+		title: 'Tres-Zap',
+		description: 'Urethral functional and muscular disorders',
+		location: '5 Dovetail Alley',
+		date: '8/7/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAITSURBVDjLlZLNi1JhFMaHiP6AvN0Ls4vob2jauYiIFoGBtnFlG1fSws1gDBdXLhIhdaEuvILfjtfK0cyvRflBeHWUEBW1nHGKpmkcpWw+ani6r9DCutn0wuGFl/P8znPOeZcALP0ekUhE7vf7HR6PZ+ByuQZ2u91hsVjkUrl/PITDYbnP5xMajQb6/T46nQ5KpRJMJpNgNBrlkoB4PL7M8zwbCoWaXq93RMStVguVSgXlchmCICCXy8FgMDgkAdFolK1Wq+j1emi326jX6ygUCsjn80ilUkgkEigWi9Dr9ac6nY7TarUrc4BAINDsdruo1WpzQtEZRDiCwSDE1pDJZBCLxaDRaLg5gDispnhmvRKrJJFU/SUWBwqO4+B2u5HNZqFWq8dzAKfTyRIh6ZVAksnkrDpxkk6nIW4F4nxmrghMpVLNO7Barctms5m12Wx46bw23XRf/TF5JsP4qQwHT2QYRWXYW7+Ix6vXT5VKJadQKFYk1/g1x5z/kmUU0+otnHy04Hi4hu8HHD4n6elegr7/z38wyTA3xy+Y7mHvAb69UWDauI0PiSuQEkoCRil663CwhuMddlad3EfbD/F+4zIWAvaf0+dEm48+bdDYjdMYC3dn4snmvYViya9MYoe/NNx/fQdb69R4EKGYMwOGPHVhO0qt7r66gXdhKrJIKAkQq6nehqijflCmOov4ry38T/wEpFjkJMz8PioAAAAASUVORK5CYII=',
+		isFeatured: true,
+	},
+	{
+		id: 45,
+		title: 'Y-find',
+		description: 'Other specified injuries of lower back, sequela',
+		location: '44742 Melrose Place',
+		date: '3/8/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJHSURBVDjLlZPNi81hFMc/z7137p1mTCFvNZfGSzLIWNjZKRvFRoqNhRCSYm8xS3+AxRRZ2JAFJWJHSQqTQkbEzYwIM+6Yid/znJfH4prLXShOnb6r8/nWOd8Tcs78bz0/f+KMu50y05nK/wy+uHDylbutqS5extvGcxaWqtoGDA8PZ3dnrs2srQc2Zko41UXLmLdyDW5OfvsUkUgbYGbU63UAQggdmvMzFmzZCgTi7CQmkZwdEaX0JwDgTnGbTCaE0G4zw80omhPI92lcEtkNkdgJCCHwJX7mZvNaB0A14SaYJlwTrpHsTkoFlV1nt2c3x5YYo1/vM9A/gKpxdfwyu/v3teCayKq4JEwT5EB2R6WgYmrs2bYbcUNNUVfEhIfFYy69uci+1fuRX84mkawFSxd/4nVWUopUVIykwlQxRTJBTIDA4Pp1jBZPuNW4wUAPmCqWIn29X1k4f5Ku8g9mpKCkakRLVEs1auVuauVuyqHMo8ejNCe+sWPVTkQKXCMmkeZUmUZjETF1tc6ooly+fgUVw9So1/tRN6YnZji46QghBFKKuAouERNhMlbAHZFE6e7pB+He8MMw+GGI4xtOMf1+lsl3TQ4NHf19BSlaO1DB9BfMHdX0O0iqSgiBbJkjm491hClJbA1LxCURgpPzXwAHhg63necAIi3XngXLcRU0fof8ETMljIyM5LGxMcbHxzvy/6fuXdWgt6+PWncv1e4euqo1ZmabvHs5+jn8yzufO7hiiZmuNpNBM13rbvVSpbrXJE7/BMkHtU9jFIC/AAAAAElFTkSuQmCC',
+		isFeatured: false,
+	},
+	{
+		id: 46,
+		title: 'Veribet',
+		description: 'Contact with electric knife, sequela',
+		location: '104 Glendale Center',
+		date: '7/23/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAKUSURBVDjLnZNfSFNxFMdvaL0EQQQSQpQPQS9R0FPQQwUSPfhQBBb4EOTDIILYxnR7aBPmlPZPBptSDoxNUR9yLhduOrexBs6WpA+BlbnRmrL/f22lu99+58JiWE9e+F64h/P9/M495/y40dFRw8jIyH0A3GHEDQ8PXzCZTEt6vf7ioQD00mq1Uo1GE1GpVC2HAqjV6mNKpXJRLpcvSSSSUxRbXl4eCAaDvM/n4z0eT9XlcvkcDse1/wJIfr//sVgs3jEYDF8CgUCImXfZA1LO78PWrANTU1NVu90u/wewvr7uXl1d3V9ZWamGQiGkUimUSiXsZIrYdAfw7cplQckFD6xWK8+a/uovYG1tTReLxYSTnr2VC8ZisYjtdAEPJ3l0jQOBF7PYtpiRTyaFPK/XC51ONyAA2EeFTPl8XgDUlcvl8COZR3S7gEKhgHK5LIjglNvf319jTb/LsebwBDhorisajYJVCaPRyJOy2axQ5cbGBhQKxVduZmamRtS6oQ7IZDJwu92Ym5sDy4H96b3f3jst+cWbzfA/OIvPNjWkUim46enpUiKREMoiI5WbTqcRDofhdDqp8xgXd+Kj5Grtp0sP/tM8KpNivH9yCcauG+AmJiYWqPNkJACZLRZLXCaTFUUiEZiKztsnKrvMDFMH0HMS0LQh9fw63tw6XuBsNlsvnUSTIAD9DlvvUuOsWdk8/+E1Gp+c8jQozo2NjZ1jcy1FIhHE43FUKhUMDQ3VGgHu9qbvZesjgJmqMg5ZppioCSweFxLMZvNLtqZgywS2VGD34lcjINjZqgp3n99L9LQhKT+Kze4j8HY078+3NymEBHYbW9libA4ODu6x+e719fWFDu78u84zvezELSqbKiIzxf8AGfvxrzvUBvIAAAAASUVORK5CYII=',
+		isFeatured: false,
+	},
+	{
+		id: 47,
+		title: 'Temp',
+		description: 'Lacrimal gland dislocation, right lacrimal gland',
+		location: '4090 Dwight Park',
+		date: '3/24/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAEvSURBVDjLY/j//z8DJZiBagZEtO8QAuKlQPwTiP/jwbuAWAWbARtXHrz1//efv//xgS0n74MMuQ3EbHADgBweIP7z99+//x++/fv/8tO//88+/vv/5P2//w/f/ft/782//7df/f1/5xXE8OoFx0GGmCEbIJcz9QBY8gVQ47MP//4/Bmp+8Pbf/7tQzddf/P1/9RnEgM5VZ0EGeGM14ClQ86N3UM2v//2/9RKi+QpQ88UnuA2AewHk/PtAW++8/vv/JlDzted//18Gar7wBGTAH7ABtYtOgAywxBqIIEOQAcg1Fx7/BRuMFoicuKLxDyzK5u64Cjfo/ecfYD5Q/DLWaMSGgQrvPH/3FabxOxDXEp0SgYp7Z267AtL4BYgLSUrKQA1KQHwPiFPolxcGzAAA94sPIr7iagsAAAAASUVORK5CYII=',
+		isFeatured: false,
+	},
+	{
+		id: 48,
+		title: 'Konklab',
+		description: 'Laceration of unspecified tibial artery, left leg, sequela',
+		location: '83591 Tony Junction',
+		date: '7/3/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAHcSURBVDjLhZPZihpREIb7JeY2wbcQmjxZbrIQ5nKSIYQ8gyuKOwqKihuKKy5xnJ5GRzteTIjTp51e+HPqDDaKSy7qoqvq/+qvYykNBgP0+310u110Oh202220Wi00m000Go0rANKlkHq9HhzHOYr5fC4g1Wr1IkSiySRQVVVMVhTFhVCOu0CpVDoLkcgyNdM0StTr9eZms4FlWSJPwEqlgnw+fxIi0dRdIxe/cMuqYRgw2SO2v9OiNpvNUCwWkcvljiASTd5Ztm0bJLa3GvTpZ+iT9xySErXpdEoukE6nDyAS35Gt12vRZJomTP0R+q9PYPc3MB6+C9AOMplMyAXi8bgLkWq12ju+I9M0TTRtnzp45pOZ8g2G+vMIMh6PyQUikYiACEq5XJb5jmy1Wr1C/vQ55CMM5XYPwr+1hKgPh0NygVAodOXuUigUZL4jWy6Xx5CHH2B313gaXcOxLeEimUwiEAi8PXhRvp+czWbZYrHYg3yAfvcFf6e3eDE2+2KPu8J+ZDIZOZVKMbrEV0gPz/df4ViGK/b7/R73EU8dRyKRkGOxGKNL3P3EJOb5A/FZAEU0GvXyl2Z0YKPR6KT4IoAiHA57g8EgI7HP5/OcPOX//V35VC8XvzlX/we1NDqN64FopAAAAABJRU5ErkJggg==',
+		isFeatured: true,
+	},
+	{
+		id: 49,
+		title: 'Trippledex',
+		description: 'Toxic effect of unsp seafood, undetermined, init encntr',
+		location: '2 Reindahl Road',
+		date: '8/19/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAL3SURBVDjLdVPdT5JRHGb+Ad57W6tFrpZ200035bpuuTk268K0LuDC2VpEhAXCyHRaudacjvxA3QKcOsVSQEABv/CDIYl8FIK9iUKt9FVyL0/nvC0Wm53t7OzsnOd5fs/zO0cAQHDcXFhYqPZ4PFMzMzNTZFT/717eZnV1Vbi0tFRIwAUEnNza2kIikYDRaEyazeaCkZGRQpPJJDyWgIA7CJibn59n3G53kdPpZKLRKCKRCAiQGR4eLiJEzMDAANfb29uRR7CysiIPh8NIpVIIhUIg4D2bzZYNBALw+/0YGhrKEvAeqQwMw2B8fBxNTU3yHAFRVRCvWUpCAcFgkCf6S0D3Pp8PlGB2dhYymSxbV1enyLPgcrk09PLi4iLm5uYwMTGBzs5OdHd304pAbMHhcPDqjY2NmpwFwugl6nG73Z5eX1+H1+uFxWKBSqVyS6XSsvr6+rLBnsfBdds9zDg+8OfNzc1prVYbb2ho8AoImNve3ubLpcokSPT19UGtVpdRhchkZeHG+5uxVMiAVcszvjJaDQ1XIpFwAtJjbnNzk/dID6gCSRxtbW08QchcUb/zUY+jvTACQyJYx7pBquXvV1VVcQLSEm9ra2u8q6srvby8zJPQHHQ6nXu0V14dGLzx43BnFIdfWpCOjGHBKMHdO9VpkUgULy8v9+ZCJG3SkCD5oOjq8bjheleL3aARh3EVnM8u4lfKiGXdVbQrK0x578BgMCj6+/uza2trPJi2y+cy4JNVjkyyB2y4Ck5tCQ5iUnyPmjHZcgV1ktvqHIFer5fT5OnLI0TQqFV79vbr+EaCO/h8H/sboj8zdItYeYGY4xXePrxsyXsHSqWyo7a2lqupqWGcr689ijlbkPn6hlffD1USC6X8ykbFYJlhOBvObTuUxWfzPhMhEIrF4sK5l5cS7G4EmbQVh0mSQdLwzzTh6KcfiVk9bPLThmO/qOt56e60tiRjV1/gplTnOfvT4oz9iZCdUpxhCYi1yk6xVulJ1vLgxPRvyXT2ghRTB18AAAAASUVORK5CYII=',
+		isFeatured: false,
+	},
+	{
+		id: 50,
+		title: 'Kanlam',
+		description: 'Malignant neoplasm of other and unspecified urinary organs',
+		location: '90 Darwin Alley',
+		date: '12/9/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJOSURBVDjLpZI9T1RBFIaf3buAoBgJ8rl6QVBJVNDCShMLOhBj6T+wNUaDjY0WmpBIgYpAjL/AShJ+gVYYYRPIony5IETkQxZ2770zc2fGYpflQy2MJzk5J5M5z/vO5ESstfxPxA4erL4Zuh4pLnoaiUZdq7XAGKzRJVbIBZ3JPLJaD9c/eCj/CFgZfNl5qK5q8EhTXdxxLKgQjAFr0NK0ppOpt9n51D2gd2cmsvOElVcvOoprKvuPtriNzsY8rH+H0ECoQEg4WklY1czP8akZby51p6G3b6QAWBl43llSVTlUfuZE3NmYh9Vl0HkHSuVq4ENFNWFdC+uJ5JI/9/V2Y//rkShA1HF6yk/VxJ0f07CcgkCB7+fSC8Dzcy7mp4l9/khlUzwecaI9hT+wRrsOISylcsphCFLl1RXIvBMpYDZJrKYRjHELACNEgC/KCQQofWBQ5nuV64UAP8AEfrDrQEiLlJD18+p7BguwfAoBUmKEsLsAGZSiFWxtgWWP4gGAkuB5YDRWylKAKIDJZBa1H8Kx47C1Cdls7qLnQTZffQ+20lB7EiU1ent7sQBQ6+vdq2PJ5dC9ABW1sJnOQbL5Qc/HpNOYehf/4lW+jY4vh2tr3fsWafrWzRtlDW5f9aVzjUVj72FmCqzBypBQCKzbjLp8jZUPo7OZyYm7bYkvw/sAAFMd7V3lp5sGqs+fjRcZhVYKY0xupwysfpogk0jcb5ucffbbKu9Esv1Kl1N2+Ekk5rg2DIXRmog1Jdr3F/Tm5mO0edc6MSP/CvjX+AV0DoH1Z+D54gAAAABJRU5ErkJggg==',
+		isFeatured: true,
+	},
+	{
+		id: 51,
+		title: 'Zathin',
+		description: 'Unspecified subluxation of unspecified hip, subs encntr',
+		location: '53058 Shasta Place',
+		date: '1/18/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAH/SURBVDjLjZPNaxNRFMWrf4cFwV13JVKXLuta61apIChIV0rblUqhjYpRcUaNboxIqxFTQgVti4hQQTe1C7FFSUmnmvmM85XJzCSpx3efzmTSRtqBw7yZ9+5v7rl3bg+AHhK7DjClmAZ20UGm/XFcApAKgsBqNptbrVYL3cT2IQjCnSQkCRig4FqtBs/zYtm2DdM0oaoqh8iyDFEUY0gUvI8AdMD3fYRhyO8k13VhWRY0TeOAer0O+kg2m/0LIcDx9LdDgxff5jJzKjJzCmbe6fi0anEABTiOA13Xd1jiNTlxfT01UVB/CfMG7r/WILxScaOo4FpeBrPEfUdWDMPgmVQqlTbgtCjls4sGjl16PxuRny5oGH3yA7oZoPjR4BDbqeHlksLrUa1W24DJWRU3Wer9Qw/Gk+kVmA2lGuDKtMQzsVwfl6c3eE3IUgyYeCFjsqCgb3DqQhJwq/gTY7lyV61Jdhtw7qFUSjNA/8m8kASkc5tYXnN4BvTs1kO23uAdIksx4OjI19Grzys4c7fkfCm5MO0QU483cf5eGcurNq8BWfD8kK11HtwBoDYeGV4ZO5X57ow8knBWLGP49jqevVF5IKnRaOxQByD6kT6smFj6bHb0OoJsV1cAe/n7f3PQRVsx4B/kMCuQRxt7CWZnXT69CUAvQfYwzpFo9Hv/AD332dKni9XnAAAAAElFTkSuQmCC',
+		isFeatured: true,
+	},
+	{
+		id: 52,
+		title: 'Bitchip',
+		description: 'Burn of first degree of unspecified elbow, initial encounter',
+		location: '3 Anzinger Court',
+		date: '9/28/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAKvSURBVDjLpZJdSFNhGMcnIX4GhglGKHlRemHhYBoSiEkgZhgaIjqwNaqBGuxiF5FFhDOHzRmZlGBdhI5SopQInZOJtXkTKGYyN+fm5s7mOW7HtjHHhv17zynLqDDowMN7znOe/+/5egUABP9jewY4VlePOp3OG3a7/YnVaq32er37/hlgXlq65fF6wbIsb263G2azmZqdnU3fE/Bhbq7d7fEgGo0iEokgGAwiHA7D7/eDAFjjzEziXwEGo/Gu3eXixaFQiM/OMAzW19d5kNVmw3uTSfFHgMFgUFpIACfmgrmMnJj0zrfAGbOxAcP0tO83gHVgoI3S6xElgkAgAJ/Px4s9pJW1tTU4HA7YCJzzj01O4heAp7W1LTg0hNjUFLY6O7FpMICmaVAUBRdph2wBy8vLPJBsBi9HR5d+AKz19TK2vx8xQt1SqRBsacFnqRT04CDICrGysgKyQqwSITeHsfFxPNNqs3iAMTs7wdbUhBhxhpVKBMj7pkQCf10dmKoquNRqWCwWvJh4CsXji7iqOY8G5elwxfUTN3nAWE7OMbtcjujwMAIyGTYbG+GrrQVTWQlvWRmo4mJou67hzvAlvFnoxRylQ/dEE+q6j+Nk8yG14Hlm5pFFki3S1wdWLIavpgZ0RQW8paWgiopAE4C0/QxGPt7HyOIDbnBQ66+gWy/jAFuCntTUuNd5efOMXP4lpFCALi+Hp6QEbpEINAGwhYU41yrE24V+7H5G53s5wLcN9KSlHTSJRE5GLI6GGhpAE0CAVOAXCvEpPx+nmg9H7+mk6NBJeHHHuORnBTtr1KSkHBjIyHi1WFDAuoXCbVtu7va7rKyYNj39LAlUXlDnoUt3mc/Mndw3P4PdF+l2fHycJjFR9Cg5WfEwKalak5Cwf+cfCVYRC3Blfz9VnP8rovbZoQ8oWiIAAAAASUVORK5CYII=',
+		isFeatured: false,
+	},
+	{
+		id: 53,
+		title: 'Ventosanzap',
+		description: 'Unspecified injury of pelvis, subsequent encounter',
+		location: '9631 Amoth Junction',
+		date: '3/6/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAH8SURBVDjLjZPfS1NhGMdXf0VEQhDUhdCN4X0IYT8ghIJQM0KoC4vushZddLELKyRhQQkSFIKEGEkUCI2oxVhepG5zi1xbc0u3cDs7Z+ec/ezT+x62scmmHvhwDrzP93Pe57znsQE2cR0SdAm6d+GwYL/M1LBVBV35fF4plUqVcrlMK8Q6TqdzYrukJuiW4Vwuh67rdbLZLJlMhmQyaUnigVlC05f4+dbB0tQplp92DsnwPimQBaZpUigUrLtE0zQURSGVSqHF37DhGkVZeQdagszKLJ7HvZtNAhmuIQWGYaCqKps/ZkivPqCwPs/Gp0cYvjnKUTe+F9fMJoFoo96zfJZ9K+sLpP33qRhujPANtr7dJPhqmO/PBxX3+PljTYLtqImPpH13qZge9LUrmLEB1FU7sZd9jJw5MljNthYk/KLnxdFqeAjzdz9Z/z3Ck2fRE36qx9pakAjME1y4Lbb9GTMyTD52GUXsZO3ZadTkL6umrSD4ZZrAezvLH54Q915EjwywtXSH8FQf+t+I9V12FLwe6wE1SmjyAi77Qb6Kt3rGe9H+hKzwrgLH9eMUPE4K3gm8jpPMjRwlHfNTLBbr7Cjo7znA2NVOXA/PsThzi2wyah1pI+0E/9rNQQsqMtM4CyfE36fLhb2ERa0mB7BR0CElexjnGnL0O2T2PyFunSz8jchwAAAAAElFTkSuQmCC',
+		isFeatured: true,
+	},
+	{
+		id: 54,
+		title: 'Stronghold',
+		description: 'Greenstick fx shaft of left ulna, subs for fx w routn heal',
+		location: '47 Meadow Ridge Trail',
+		date: '3/6/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAALQSURBVBgZBcFfaJVlHADg532/bzvNo9MtY1oXRlRWsCREIlFXoaBmUEIkaH9uCsokEIK6qbtg4UVBIN0kFETQnVQ3FmXOxMwg1BApA9GdTdFJbLqzc87763lSRNjy/i+vDgw2dudkLe5AAgmRiKJbyj83r8eP6b+Zd44d3LEAkCLC9g+PH/ty39qHc07LgkoAEAHh2mzHV7/fNHWpfeuvs+eHJw7uaEMNuUqr++tq2bmrqpwSiSj0ouh2w+1Oz5MPLPH4g7WT5dqiKA/NjL313dDRT59pZ0gpLY6Iqr/K+jJ1ospUiZTIEoqVg/12rFvp3vsbA/Vg8xBkCBJk5EROSU5JTklOSa6S1o3bVi3ueGQ4ee2JO1V91QtQA0RQVyRJpKT0gpzUFf2R/X09LJSuUhZsvK8h1bkLNUQQqFMWQiDlJCEKUWX6ySUppRIyKYMaAgUpkSSBQBT6KkDKUi+JHAoigBpKlwgKEiIC5IyS1FUQiSAkvUKvADWUEiKCYL5927k/jpu8eMby4SFTV69b9/ROA0uGHDt8yMhdQ36dmTE0O1iPjb3brKFX6AWdhY4jh7/WiFkv79ltbm7O5cuX/Tbxrap/wM7nnlXXlVarpe/06frI+cEPaijdUCK8980xq69d9NKeXd7+6HOzF064e+UKo6OjWlf+deDAKZOtKevXrze2aaNLly69nqHb7en1qKfOGh5sgqde2W9+oWPXrl02bNhg27Zttm7d6la7440394GlS5c2aui2S+mWEnnpinS5dRL8dGhc9HrGx8c1m00wNzcnlfDJxwdiy+bN6cqVK/M1dOZ7083+avn+7WuaX3x2NE/8fNSLY4+yadT09LQLFy5oNBpWrVplZGREztnEiVO9ycnJqRQR1u39YW+3E88n8VhemF68/Mb3ffeMLEuNRp+EM3OrO920KNYs+rM/KdFuL5RWa3rm1uzMlv8B/jBGW3bkYMYAAAAASUVORK5CYII=',
+		isFeatured: false,
+	},
+	{
+		id: 55,
+		title: 'Greenlam',
+		description: 'Varicos vn unsp low extrm w ulc of thigh and inflammation',
+		location: '473 School Crossing',
+		date: '10/16/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAALNSURBVDjLjZBbSNNRHMdn0x7qQXwoyoqYS3tIJUsR8UHnFEKayXCO8Dp0mje8zLVm3vJSGpk6539azQteZt6aYmuKoQ8q3uY9LSJHqFsUJGpqpNu3v0FmGOaBLwfOOZ/P+fGlAKAclFQ/S960zHplse4M5qtoW5XxVnIfZ6ujv+8PhOO9zzK1NTTDUv1p7E15DL3oUAJ5yAnJUqsjdGo+NgYLoGtxxZLiHGZk9OVDCQg/8wL9hBor/QS2JqqxNkBgcVyFnmwH7aEEbG//iNnaJOPqZDMMc61Yn1FC3ytBVrB7yz8FEQxrXinPY0USxAARytyK4tqNSkQxP/QtAiy03YO+PQ19ZbGw519SOQltj/8lCHG9wCzleRqKAhjYm4rCeJSU5yBfmoaMR0K0valFbk8W7NIvVl0W2BzbFRRyr/Q9ifJFa2YYZutTUSfgQBLERFmkJyonUiEbE+GxJhF5miQ0vZUjQRkHlygnYlcg5dKb3vco9hWmSGGgcOwO8jVCZI8k4O5INMRD0eARoZgnfP5fWH62H6TjYigIFroCLdHNNEUb2xwPYh2ge3r9j+DI1WKxVBy3rzBbTjKKM90wnuyCzZcFMM6qsd6QhOEYe+MA73z1L9jEtSGcLdCs9X4C7je2IK1CAaGkCs+GNyGULqKRabG6QcKQsACRBfmIhi8P3dHpSZ2n0LzLOJz4jvX2OQNyZgH+MBDcC/h3AFwFyfQD3R5mMGpasXctZ5wiz02NlKkcx+3R5hIIXugRogZClEYEKIzgVBnAkgGsEgNUN07imzwMIKHvtyn4SubjLSo6vaiLFG2xm645NxE30wcR0QXwXpETKIGgdiBwZ4q8eVTzfTHEt4FORMNnsRk+hJvgNct0W+1FTaG8q4l0UWWxU5w5tUrHhBEw0qfITIOROgm3FA3o155rS5LDM0di7RvIH7U7Y5P7wg68099P+T6oezGZAe0AAAAASUVORK5CYII=',
+		isFeatured: true,
+	},
+	{
+		id: 56,
+		title: 'Biodex',
+		description: "Nondisp Maisonneuve's fx l leg, 7thN",
+		location: '3665 Nova Alley',
+		date: '8/19/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJRSURBVBgZBcExiJZlHADw3/O+732enKYdQVeklWBeoSBFtmgNNrRcQ9DSFBQZDU4OEYSNbQUtCg5FEAUpDdXSUliBQRBEBBXeVuFZnvKd1/e9z/P/9/uVzATnX37wEfwCAICbpy6s7wUAACjnXnrgUbyFtV3Ld3vhjbO2rv8Alu465sOzr9veugUf4dKpC+sXAWDApWdeObNv+Z57/fPV+zJTm22BzHTiyD5LR0/KzLXPzr/3LC4CwID7l1fus/n7FTHetv7JO2QiXc8fpbTx83eWV4/tBgCAAbLORR11+w+LVmWmj9tpLUMEcPO3LeX401599/O8MVv59c/1vx67fG5te4Boo6ijGGfa7D+kNoQ3n1u1MQ0FkWlsYeiP+ODK5sN96a8++doXBweIOhOtkqEUMum7zo3b6Y+N1HVprOHWdvXUQzsdP7TX0qRb+TbbTx1EnYs618a5qE3UBvrC4sCkLyZ9sTjpXNvcduhOXnxijzrmgQFinMlxLmuIsZGpLaZSWOjJJPticehc/TdN/555fP8OC0NngKhzUZsYm6hBpMhUFH3XASVFJDt6pSv6vpcYIMcm503UJmojgABFEfrCZOiUTBFFKUUmA9SxamMTrYmxkURLBUNHVzqR9IUuMGHnQGYaIOdVjE22JmvISNCiYgAAAJGVKAZc3p5OT+zatyprE7WRicGsTrEXAADM6lSJrgx4++svP92NowBw7fDzFroD9iyOMulKUQpQ0Hd3iKzzkpkAAODkme+/6btykG6F3KIgQVFKZJvuWVrY+T+vNUkTODP9hQAAAABJRU5ErkJggg==',
+		isFeatured: true,
+	},
+	{
+		id: 57,
+		title: 'Cookley',
+		description: 'Other diseases of spleen',
+		location: '7575 Iowa Crossing',
+		date: '7/11/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJRSURBVBgZpcHda45xGMDx7/3yzB6ebc3ayJS8rBDTkixRMsoByoE/wIkDcbQTckJRTnYmB07kiPIaRa28JM2iaLLJS0mYtzLbnvu597t/1++6TCknitrnE5kZMxEzQzEzlB679M34C1HFe8WJ4D3kYuROcF7ICyPzSp4LKdPWd5T5wxA1QjBEDQmGF8Or4r3hRfFBKUQ5c+cLKb9N1ISgIGpIUIpgeFG8GIUoTgKFN5wohVfmVlLyqpAybfuaCv1Dk/SsrjBeC1wYGGNPdzPlughjmsHQuxr3RsbZu3keTpRz976iuSd2ItSc0lxJUIVZpZi8CJTrIvpufCICjl58z6LWOla2l2lvqWNxWz25VzQT4swJD99krFs6m6uPx6gvRezb2kqaRFRdwIDMBVRh4/JGfpmcCjgfsCyQVnNjy8oG7g5PsK2zkZpTTlz5yOHd7WRTATPIpgKDI9d59OIm1XyMQgqqsgl1XaTjeYEPxv2RCdYumYMZVJ1gZmQugEEk/bz89oQtm9axcG4Hd4evMfj8PC3zXhH1HB+xnV3NfPjuKLziRHHeKERxohSiNGkve3ZshyRm14qD9N3eR0LM+cu3iCcmhbwINNQnNMxOaConNFcSWioJrZWUtsYSP6pfKEUVdq04yC+9PWdY2tZJFHvS77nn1M2PmDfUKVYI5hVzAQrFgrJs1RjDowMMjT7g0LaznOzfS30yC9MSkZnxL90HFhxfuLjpyIbOjXTM7+L156cMPHvAh7fjfZGZ8T+6Dyw4CewHGoBJ4PTgqdFDPwHX2V3XB5aEeQAAAABJRU5ErkJggg==',
+		isFeatured: true,
+	},
+	{
+		id: 58,
+		title: 'Latlux',
+		description: 'Contusion of other intra-abdominal organs',
+		location: '2 Rusk Center',
+		date: '7/29/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAI6SURBVDjLpVNNaFNBEP5e8hJiSjVVTComsdYUMbRVUhSVgFawgqgo6FFBaMEeehQ8WAQFj57FCh4KVixCERXipQhCa6kaEz00uSQIghibNn++t7tv4+6mTU2bi3Rh+WZn95v5ZndWq1ar2MzQ1zuGHs85xwaPEIF9qz5uWbBW5vjIiY/Sd+n+qz5GKbT1CgRxnwCPmPPBHW5wLolcBTEJxfT7+RtccI5Fwg9RtdYU3Jwddgp4DVwfrXJrBpoNt87trwfmnCP2KYvU9z13ZObTB/04e7izoYRvFrP8qwspV45kMqlsxhj6u7uxd7u+q7V1KwK+NsTj8VoJIvsXn7O9Vx7K5rMgJkVpqQzTICjmSwrl+unQJDKZDMLhMLxerwqqC/IHr8PX29HSCcYZ/C1BhRVigHKKP1SgxTAx8QwyWaFQgGmaSl0qlYIuZFOmMRCLKCITh6lA0zIFkcJkZs1HmCL9e+mhUAj6g+ij6HDs2udypXLIZd+C7M8sfuVzDdJlSYyyBrK00+n02jNefX55gRgkyAo9I05ycmx5aRlTty/AMAxVKyEEuVwOiUQCkUgEgUBA+eqvIMg9IuNLe/H4V2arEeRwuVz1jG63Gx6PR01d1+FwODY20vm7U0ftNm1m8fciKCWidrqCNfti9IAKNv5mVvjpxlbWgB9yo2P3zqa9/+LdnLqPMwP9zf+ClC4zZgrFpgrafV7VWLG300qB9j+/sevKvSflcumUbOVtnraF9OTogLbZ7/wXRdt3lZxkvhIAAAAASUVORK5CYII=',
+		isFeatured: true,
+	},
+	{
+		id: 59,
+		title: 'Tin',
+		description: 'Genetic susceptibility to malignant neoplasm of prostate',
+		location: '3888 Toban Court',
+		date: '6/4/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAK5SURBVBgZBcFPaJZ1HADwz+95n3e6uTnREGdljRKtGCYiHTLxkIUmQeeCOnXzVnQIoi5BQV08TMo6GIiHiKI6ZEWgszzEmtpqSDP7s9ycm9NN977vnuf37fNJEWH/G6df6l676vki2YXVSCAhEpFVOU8uzMX36daNV88MH+oApIhw8O2zZz45vOuhokjrgoYAIALC7NKKEz8vmP67fee3XyfWjwwfakMJRSNt6yob68avaRQpkYhMHVlVheWV2r6tffYPjNi4eLyncWCodf7jI1Jr6sUSUkq9EdHoajQkIZALZOpEIWlPf27r4jndQy/oH9xp4c9tJk4de7eEIEGBlAgJREqKRP/yKXVcsH7r4+Ynf9eVOvrWbtK7YUt/CRBB2SBJIiW5Doqkd3nEllWj+gef1r56UldP8tfYhJt3UhTtuR0FRBAoU6FISYFGkaxePG1LfKv/gYNa/30oNW9o9vbpzvOOXj+wsvvwZ5cKCGSkRJGSIiWtK19af/uU/gef1ZoaVjRXdG7db+bMed173zJVD2QoIFdEkBG4fflrPYs/2vjIMzrTxzS6QvvWfWZGRs3tGZY2bFdnoICcQ0QQTI+e1L3wk5W82dWLR2Qtt+fvNnNuwuLeo1LvgNXNpK4CFFBn6iAysxc/8vCel636Z8SlL84a+2be+Hdjlh57R9WzWaDZKFSdCpSQq5AjvPlLx9DkrM74VwZ3POHm7JzJsUk/7PvU9Sv3yipwYlPTSjuDEqqqVtcMrG0a/+Oa9z8Ytnv7oOXNOyw9edyjffeIIIIL1yqRw0qrAiVU7ZyrnKNTS+te/9flFCYlkJdIS5UcRJEUOSnLlKs6V1DCSqueWdPVuOu1oc6aiCgEGdDfXYIIuptJSnKzkRbrKk9BCSnFe0+9cvq5lNLOED0AgkAIIEAr5zxaFk7A/5IUWNTkV3l/AAAAAElFTkSuQmCC',
+		isFeatured: false,
+	},
+	{
+		id: 60,
+		title: 'Alpha',
+		description: 'Adverse effect of tetracyclic antidepressants',
+		location: '5 Northfield Parkway',
+		date: '1/20/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAKsSURBVDjLfZPLa1RnGIef75zv3OLEDObWqcaYYJUWgqa40MmilioE2kI3XVXRFsmqUAqi/4G7brpxpaLgpUIEcaEW23RbKRYqASfKJOIlMbfJZDyTc/kuXaS1BmNfeBcv/Hjeuzh/494PxoivmpkJU8WbZteGnoTQ49yxLz78HkAaKw59NtTTGYahEMLl/ywxoFXOtV8fHQVWAc3UBEEQigu/1UhYoCEq9HXPEnl1lDUsLkeMP2qjxb6PpJ3jX/ahjRD/QmWmwHFcHAGZM0NfxyyB/5h62kBphQwC+ntKTFY3UPQ7MGZtVRLAAI4jSO0cvldjaaVOqhMypVA2JggC4jSiPXKw2DWD+Q8gBFYZUp2TqJSVPCUzCm0AkWONRjoCa+2bFVi7CgjppBFPY12P1MRkSuO5EXGjQKtfYjC/RH53li1Jvw+DADivAI6g4G7m2Uw3yUKBFruJVrEJtdjOzJMSZa9K+YMapfIRBrvuh/dO7RgGkPZ1gNfFu9EgT/8co1h4jtAaL+nk455eDvRVadt5kPjxTTZs7BVqa3305nf9x161UFkYQRuDNoYd6Rz7enoxQHX6BZG9QXHgW3RznLBjC4l+Sumj3S0qrp2W1loEMLx6WAC4A0s04wXC6b/oKI9QmLpDXpvCcecRToy/cR6SJi+nU1eKde5VR0V0VMT4Hu88vIgXWYyawTFL4LRi84wHVyrJeGV5RIaeqGPytl3de0GIf1CWpHqLZOoXuvYMYbOfEbrBg9spMk3Ic20nqsuHDl+eHJW+FD+NjlX3ZdoOvL7i/eJ64b2hT9xs/jRStjE+ltm7zU8TubWc++QXj57cP7qay9p1/cm14d/TF6dsXPnc/vFjuXHm6+2H19PJt33e88n5O8v1sW3NxXhlYmLuxDdnH15dT/c3MC9g0QGCji8AAAAASUVORK5CYII=',
+		isFeatured: false,
+	},
+	{
+		id: 61,
+		title: 'Cookley',
+		description: 'Bromhidrosis',
+		location: '7 Anniversary Alley',
+		date: '12/4/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAGBSURBVDjLY/j//z8DJZhhcBoQMuUBJxCzkWxAeXl5PYiOm/toTtDEB0U5OTkCqamp/XFxcfvDwsISYOpsbGwUjI2N12tpaQUgazYoKSn5D8QJgRPuqdevf/nKp+MOf3R0tEJISMh/Ly+vBGTL1NXVC1BcADQgobi4eH5ubu59ED9o4r05Hs23WkBsd3f3+XZ2dudhalVUVBxkZGQUUAwoLCx0ADpZAejk/0AnB7g13JTOX/z4lW3pVWmgkw0sLCz+A53sAFIrKSkZgBIG+fn5AZmZmQIgNtDJ+4ODg/eD2Pbl19odK65Ogzp5v7y8/HxxcXEFAQEBBxQD0tPTAxISEhwiIiIcAgICEry9vf8DnexgnnNJKHbGvVcGyedVgE5OUFZW/s/HxzcfJRaATnYAOtkBWRDo5PvAUAa7Qj/xfIV1waUVIDY3N/d9NjY2lMAEObkA6GS4nywtLRUMDAzqgU6uBzrZQTv2DKdX442r6uGnhVhYWAoYGBgEhkBSpqsBAOTifxrCztZUAAAAAElFTkSuQmCC',
+		isFeatured: true,
+	},
+	{
+		id: 62,
+		title: 'Keylex',
+		description: 'Unspecified fracture of head of unspecified femur, sequela',
+		location: '490 Blackbird Terrace',
+		date: '3/25/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJpSURBVDjLpZM7aFRRFEXXffPyJokzmkSFWBiJiGBEDH5io8QmIIqFojbaaGkZSBVtbAOCpZU2IhhRLJSAEFELISIpRBB/wxgwakYnn5d5n3vvORZCjB8sdJeHw2Jzzt5GVfkfhb8O3ANTUmVQhQMi9KmCChMijKlwsXxY4+X7ZrkD98D0q3DFdA11m7Y+NOoA9WhSw9cnyV6PVEQ43X5EH/4GcOPmiLb13wo6T6Ktq/CNl0j2BXUpmGaC5k0YG5C9HyX79PDo2hN6ewlgx02HKtXCtuslCebxaQXsAuIy1KffIaKYYheF4jbmnpyJRdiw7qR+DQBUGAw2DJc0Askq4BYZv1MDycHnPLoPYmPc/HN89pbWLcMl8QwCBAAiHDLte5C0groEFcv+gy2oWNRb9vXHqGSojXGzzwjbNiOeQ0tfEKGH4kokmeVT9SstLdAUOUJy1OXYzJIuepJFWN1RAzK8p3sJoEKiLo3wjpmpORoLOXnqsVawVaEUBuAD4kTZe8qCKiIUfjjwVLBJL0T07G5HXYa6hM+VmNl3RdYYg00MU/UEE7QiPsRmvFl+g7u2NomJulAB9TnqLFGzJ2ukaJLjFhIkbBCu3E5Sq2Jz7v4AeC41XlyIcWWCaD2oQSWjvMrRtGWetzN1qvNzrD/ciRa3M/34QmwzLv0UpJkb5li4dmC0uesoFBZw9af45APqUkxYplDuxbOR+st71F+NHd8xrDd/i/L0NTMgnssreoa6o9VbCZoCEIfLPIvTr/j4ZKTiLGd3ntOxP3YBYOqqKYlnSIQD3tPncnCWCWcZc5aRXef/UqZ/0TcrHX7i2ZbMyQAAAABJRU5ErkJggg==',
+		isFeatured: true,
+	},
+	{
+		id: 63,
+		title: 'Mat Lam Tam',
+		description: 'Stress fracture, left radius, initial encounter for fracture',
+		location: '7267 Portage Parkway',
+		date: '5/9/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAKKSURBVDjLjZPdS1NxHId31R9QF0lXmW0GRRC9eVNiL6ZIRoVCSFNzL+BNiIe1ZCzLKKRAyLIc+Y6hFcpMmUo4NXXszbUIy9p0Dp1ORGRnO2dzG5/O7wyPDQs88Fwdvs95vj9+RwRA5HA4csafyTCizsVw6RGIRKIzu+QgGT5us9mCFtME7KYxDBanIxaL7Qpeolar9+j1+pKhp0pM6pQYlKaDZdkkQqEQgsGgQCAQQDQaTQiSC0ZhKJLsEGxJtqBpGpubm8kFhholJhoVMNySIBwO81R1LkDdsYB7HKp2D1StHlAcpEIQCAVTiYKBQgkikQgPGe4YXUU7R5txFa0jq6honucFpCqpYOCRAl8a5OgvEPN2wt9fpZrn8F5XDUuXHP7pTjAME/9nQd8NMX9ARLC1CsFvacKa+S6itBkrI3ew+LWf5QQntwseyDH+Uoa+64eF4coWDyqa3Gh80wD/mBTRjQ5sfK/GmkmLuXeFqLmWokkumBqFPj+NF5AzIBKy69JnFSLr3Qj7tAiv6LDh1ILxVmOm4TwtFHzSyDD2ogy9eWnCIRK4XeGbqEPQXQvGUw7WWwlmvhjMrwJYtWeZpAIbV9CTe0g4xMCiA0tD5Vg2yhGYlYL5nQ/WXYTQzwJMPz4FKnO/ZrvgfhmMdaXoyU4I1n/o4e3lhryNCLlugpnNhq3+HJzPL2OmLgcec//Oe0AKPl5MRTweh2+4nNu5DYFvGWBmrsD+OguWviZEGRoxlgZ5hHtAUVRqZ94x9N4+jQ8XUuFyubBgUCDif4LQ7FXYXmXB2F0Pp9MJq9UKu90Ok8mUEBARoUS8N1N7IuVhmWSfjLzoUh1tcb69tD5Zm7FM5R6o+t/v/AcPwsfW2HYHkwAAAABJRU5ErkJggg==',
+		isFeatured: false,
+	},
+	{
+		id: 64,
+		title: 'Zathin',
+		description: 'Complete traum amp of unsp hip and thigh, level unsp, init',
+		location: '4 Merry Terrace',
+		date: '8/29/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAHVSURBVDjLjZPLaiJBFIZNHmJWCeQdMuT1Mi/gYlARBRUkao+abHUhmhgU0QHtARVxJ0bxhvfGa07Of5Iu21yYFPyLrqrz1f+f6rIRkQ3icca6ZF39RxesU1VnAVyuVqvJdrvd73Y7+ky8Tk6n87cVYgVcoXixWNByuVSaTqc0Ho+p1+sJpNvtksvlUhCb3W7/cf/w+BSLxfapVIqSySRlMhnSdZ2GwyHN53OaTCbU7/cFYBgG4RCPx/MKub27+1ur1Xqj0YjW6zWxCyloNBqUSCSkYDab0WAw+BBJeqLFtQpvGoFqAlAEaZomuc0ocAQnnU7nALiJ3uh8whgnttttarVaVCgUpCAUCgnQhMAJ+gG3CsDZa7xh1mw2ZbFSqYgwgsGgbDQhcIWeAHSIoP1pcGeNarUqgFKpJMLw+/0q72azkYhmPAWIRmM6AGbXc7kc5fN5AXi9XgWACwAguLEAojrfsVGv1yV/sVikcrksAIfDIYUQHEAoPgLwT3GdzWYNdBfXh3xwApDP5zsqtkoBwuHwaSAQ+OV2u//F43GKRCLEc5ROpwVoOngvBXj7jU/wwZPPX72DT7RXgDfIT27QEgvfKea9c3m9FsA5IN94zqbw9M9fAEuW+zzj8uLvAAAAAElFTkSuQmCC',
+		isFeatured: false,
+	},
+	{
+		id: 65,
+		title: 'Alphazap',
+		description: 'Malignant melanoma of lip',
+		location: '287 Mcbride Crossing',
+		date: '1/27/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJtSURBVDjLjZPLa1NREIe/m1dr1aY22tb4qEkEX4hYaKG+7UIFS5auBOlG6bbgHyC4EHEhKCjiVhBcaVWsBSVgikLF2iqxPqI1llrTxiba9N6Tc+64CAaDFRw4DDNwvt/MOTOICP9zpjo7ZbG8h/+0/p6eRfOWiFSCVColxhi01vz2Wmuy2SzJZJJwOEwsFiMej1u/7/j+pJVKJaLRKAB/gkWErq4uRISBgYGqCqoAWmsAHo+XOzMCxgVXXIyBI1s1juP8G6CUQkRoa/m+6EOq7Cgd3vu8v5OR+ZkElj15YlHA0y8rcMVFu+UKtIFmfY+dnhe0bD9OMLKTuY+bePPw+vm/AADtq2eqlK1CgqB/gqX1u8l9SBGwFMvrW1gWWh+sAjiOg4iQ+NSIEUG7ENJD7A+nCUYO40zdJFBnMTHyhpKtZu2Fn7uqAHkzh4iwZ122rF54RqNvjGAsjj15FU9A41/WSm1xbLr403ekvW/wbWWQTj/t3fC6YRgRwXVd7t84w1L9kuDGOPbkFTz+EqqwgczjZ6gfxe62vsGRql9wXTfi8XtJ5ceo+/yOg+2raNp2FPX1Ot6AYOdb+fbkOdeCIT54fev7YRgoj3Jf8lQ9xnoU8q9kKHGZgJ3GsI6psUu42Mzn1jA99IoLfi8NzTG0MhcOXezaXgEYbXodpeRddpzW6Rxb95ykJvOEt7eTjAzkeNGf5IG7mYJaQq4wg9Y6bLR7ttKCuVV7DsACxtU06vVdIjv2ks/Okh5OMVp3gMLXIo1WE7OZ76xVrTU1qjb+1zIBHNvXuNAWbfZ1bIkgfmdo4Vu2p/vcaPpfW/oLvSN/oHdKKLQAAAAASUVORK5CYII=',
+		isFeatured: true,
+	},
+	{
+		id: 66,
+		title: 'Domainer',
+		description: 'Optic nerve hypoplasia',
+		location: '86008 Drewry Junction',
+		date: '8/18/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAMSSURBVDjLfZNJaFwFHIe/N+ubdCb7UpK0FbOQRdvUi4cag1iC9NA2tGoKQgTxoIKeDFLqQTAHofZiL1aK4MVTT9WmoMGIJRLN0qpJmmQas00nmcky+7yZee//92QPEvzOH9/p9zNUlYNY/P5sNyKfqmhIRT7sHBidPcgz/htYGj1Xr6Lvq8h7NS0DlU5+h73VsYyKfqmOXHtmcOzxgYHlu+e9qvqmigyHmvpbGzov4hKHTHQKr99NLDxOYnN6TUWuqsjNnqF7+SeBpbvn+xG94q/q6W3ouIBZ1QZaxN5f5u/xEY50ncJVdoxCNs52eJp0fGFSHWfkubcnbxuLo+e+RmSotnXQMKufxUrvkIwv4BQzlLJRTFeRhiPtYO3jDh7FZYZIRZfYDk+T21/71qOOvNF++rpRSu+QiY4jxRT+XJxcKkpqI0Lr4Bd4A4cgu4pmwxipJWoaj1NRDTN3Vl71qEhWMSp8pp9Q9VHy8XnKqiqprAoQIAfWOjg+sCKQ3yC3NUlmdQLzqQuoI1mPipglKeDHi7eiDa8/hBWbQjIxvG4wco/ApRS3fiSdSmAHKlE3IKAiZR51xB1OjuKRPdqCr+DyHMKsP4ntC2Bau8jWDyRLaWwziOMPIbkSe1aOiFqo43hd6jh2ua+e5eTPjEU/IZK9B1rAE2widLidnBeKfhO7YJPOWfxSiPGdJ8G+4aCOqEdFXM3lfTT4Ovhpc5jfEreo8zZwIvAiQbMRW6Fg2cykk/zpZHAMeKn8ZbqSwkORovudgWN9md3Np4OhZjoOX6LOXctcepxH1hy27rOyvc2dxDZrYtEZ7OK12rOUJ4X1uVnsQnzCuP9Nr09FhtSR4eqW063Nx8/g8nj4I36Dh5kZ/lrcp85Xw+tNF3HnCkTmH5Devb+mop8jcvPJlGe+er5eRT5QR95tPHG+srHnDKVigtjGFEHHRXR+jt31iYyK3FCRa70fr0QOPNPv1092qyOXVeRSS99bRj62yuOFB9j5zVsqOvLClfDs/77xX3692t2vIh8h4lORz05dXr59kPcPXS/CRago2Z8AAAAASUVORK5CYII=',
+		isFeatured: false,
+	},
+	{
+		id: 67,
+		title: 'Bitwolf',
+		description: 'Infections of kidney in pregnancy, unspecified trimester',
+		location: '34 Heffernan Trail',
+		date: '1/6/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJ3SURBVDjLpZNtSNNRFIcNKunF1rZWBMJqKaSiX9RP1dClsjldA42slW0q5oxZiuHrlqllLayoaJa2jbm1Lc3QUZpKFmmaTMsaRp+kMgjBheSmTL2//kqMBJlFHx44XM7vOfdyuH4A/P6HFQ9zo7cpa/mM6RvCrVDzaVDy6C5JJKv6rwSnIhlFd0R0Up/GwF2KWyl01CTSkM/dQoQRzAurCjRCGnRUUE2FaoSL0HExiYVzsQwcj6RNrSqo4W5Gh6Yc4+1qDDTkIy+GhYK4nTgdz0H2PrrHUJzs71NQn86enPn+CVN9GnzruoYR63mMPbkC59gQzDl7pt7rc9f7FNyUhPY6Bx9gwt4E9zszhWWpdg6ZcS8j3O7zCTuEpnXB+3MNZkUUZu0NmHE8XsL91oSWwiiEc3MeseLrN6woYCWa/Zl8ozyQ3w3Hl2lYy0SwlCUvsVi/Gv2JwITnYPDun2Hy6jYuEzAF1jUBCVYpO6kXo+NuGMeBAgcgfwNkvgBOPgUqXgKvP7rBFvRhE1crp8Vq1noFYSlacVyqGk0D86gbART9BDk9BFnPCNJbCY5aCFL1Cyhtp0RWAp74MsKSrkq9guHyvfMTtmLc1togpZoyqYmyNoITzVTYRJCiXYBIQ3CwFqi83o3JDhX6C0M8XsGIMoQ4OyuRlq1DdZcLkmbgGDX1iIEKNxAcbgTEOqC4ZRaJ6Ub86K7CYFEo8Qo+GBQlQyXBczLZpbloaQ9k1NUz/kD2myBBKxRZpa5hVcQslalatoUxizxAVVrN3CW21bFj9F858Q9dnIRmDyeuybM71uxmH9BNBB1q6zybV7H9s1Ue4PM3/gu/AEbfqfWy2twsAAAAAElFTkSuQmCC',
+		isFeatured: false,
+	},
+	{
+		id: 68,
+		title: 'Zontrax',
+		description: 'Insect bite (nonvenomous) of breast, right breast',
+		location: '9 Sugar Plaza',
+		date: '4/23/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAKgSURBVDjLY/j//z8DJRhMmJQd+x89/W4IRQbY1x5L8590dzmy5PuIqC4gfvA+PPIyEMfhNqD06H+L9gfG9p33/jr23OMEiX30DTj8yT/oFxCf+hAYfBeIfwPxIyBWwjSg5Mh/tYZHzDr1D34aND7Y9tXOsf2Lg/O/z85uNjCFn908lT56eH985xXwzXvygwYUA4yLD/9Xcm+QlS572JWesP7XVyOL79/MLKci22Rc/6DXvPH+X8um+79t2u7/tOu4/w9ugFHxof8wha+1LP89NHT9iaxZIf/BCpWie7/Vi+/N/25kqvrN2Oz/suiO6QgDig6ADfgtJrX0p6TMb1u/Xd+5Eh9M4k16yCyQdH+HYOK9H6JJd+tgBv7U0j3wXVvvA9wAg8J9/6sNAvT/8gr++8Mn1MYQ8aCFIfzBf6bwB3+Zwx/8Ywu7H44e+j8VVX4hDMjf+/8/I6v/fya2OyghHHCn3GuRw3TvJTZnumq0n+4OFHi9x4nl305X5kfXDHmvwg3Qz9v9/ycDS8hvBhZxmGavmZZeHjMtX3jMMn/QW6p5+XyJxd/vW3v//7u24//XFUX/T2fr/tnlzJILVqyXu/P/HFENB5hmxw6jaY6dRh8dugwXOfQY8ux0Yb77Daj5/yTf///LBf//b1P8/7rL4T9Q/B5Yg2729v+WJTqSFqXaM81LdR8B6bcWZToZMANBzv53dt1/ZPC+XuI/SBxiQNa2/0YZmv6GGepu6gGWrkAanBqFNTxkQTTQz4+/zE3+/x+o6UcZw/93QPwwg/k/UPwJ2ADtzC3/tTM2/9fK2ATEG/9rpW0A4vX/NUE4dd3/sriU/8dS1P8/K1f8/6qS9f/dFMb/u33Z/u9wZa4iOtcdCZetANp4HxoLj0GaQeIAMa12DZDYXzMAAAAASUVORK5CYII=',
+		isFeatured: false,
+	},
+	{
+		id: 69,
+		title: 'Overhold',
+		description: 'Contusion of right middle finger w damage to nail, sequela',
+		location: '3704 Manufacturers Place',
+		date: '6/25/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAIjSURBVDjLY/j//z8DJZiBqgb4dN1jDpnycL5Xx111z7a7/JVrnn8Aibs13DKrXv38t0/b3XkEXeDVdjetZOWzJx7Nd4y82+5McKm9pVm56tnPgK67a4n2glvjraicRU/vudTc5AzsurcmdOKDg3i9YGdnx52VlVXa2tr6bt68ef9ramoeJqXnXwHJ5eTkSAD5d0HiIHmQOpB6uAFGRkZsPj4+XRMnTvz/4sWL/3fv3v1/8ODB/42NjfdACqqrqw/dvHnzB0j8yJEj/0HqQOpB+sAGGBoa+hUXF3+4evXqu4iIiG3e3t5/UlNT/0+aNCkPpCA/P/8/iA8SB8mvWLHiIUg9SB/MBV1NTU3fJ0+enA5U+Mne3p5j7969HOfOneMAKTh06BDH2rVrOYDiakD5JyB1IPUgfWADdHV1M9PT099PmzatJCgoaKejo+MvNze3/4GBgf9BCoC0PogPEgfJg9SB1IP0gQ3QBAJfX9/rvb2971etWvV23bp1/6dPn/6/sLAQbEBFRQWYDxIHyYPUgdSD9IENUFNTYwY6z8DLy+t+SkrKl+zs7O9A/DM8PDwOpCAhOfc6kP8JJA6SB6kDqQfpw5kOPKtvHHTIu7JGL/wMZ0DzrXvaIaejiM4LTgVX1yZOuvdTN+yMplHk+QmaIaeNAhpuPlEPPJFG0ACr9Ivz4ife+60TesYMxA9tu/UBqJFfPeCEulHk2fmqfseZqZ4bAf27e9aCOQHGAAAAAElFTkSuQmCC',
+		isFeatured: false,
+	},
+	{
+		id: 70,
+		title: 'Stim',
+		description: 'Laceration without foreign body of toe with damage to nail',
+		location: '7468 Eggendart Park',
+		date: '9/20/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJ6SURBVDjLpZNZSNRRGMV//2XGsjFrMg2z0so2K21xIFpepYUiAsGIICLffI8eWiBBeg3qQV+KwBYKLB8qpHUmrahcKLc0QsxldNSxdPz/79LD1ChBUXTh8sG93POdc75zDa01/7NsgGvPR09rzQmpVZZSCqlAKIWUCqk0QqoZWyKFRir1uvxIbsAGUFqXHQqkpP1L57M3Pm5MMJBKpQHUdF9BKIGQAlcJXOlOVykSdye3leO6MmkGQNyHw+uO/1X3bzGBK+S0B1IqAKqDg3986HeCZPffwvJtoNT7lOZLvUdtAPEDAKBkRzo3QwMUb89InN1uGGD3spdE214xe8MRUnM2MfppNW0Pqy7YAK5UKK2xLbhdP4hlmdxpGMQwwQT8ziNiI534c7cT6WrFazikzF2Eb8HS1IQEDdiWwcHAQmpehTkQSAcgNvSMiYFW5uUUMdV3HW+ywefGNqITJsbUUL75k4FWYJtQ+yaMZcXrk1ANk/33mbdiD7EvlRieETy+FJLkMFcjRRSW3emIAwiF1hqPBfu2LGSWbbA1uZ41SfWkrtxPrPcypsfFiWYzFGzGKTjFV28WEJeIUHETLdOgrmkI1VdHpCdEet5enP4qLK9mKrqMgedv6cyrAP+qxOTiUxAi7oEJi8frELoFoTLpa7nI/HQvscgSRt+0kV1SSW7qYtp7xrBMphm4Mi5h/VIfTcEq1u0oJaknSEdNiMYHET7UvcMpPEN31Ed7zxgASmk1I0g6dK66s8CRak5mVxjnfS05+TsZCw/T9baTx1nnGb47DrQksjE6HrsHYPz6nYt3+Sc3L8+wA2tz0J6pF5OD4WP7Kpq7f5fO79DfSxjdtCtDAAAAAElFTkSuQmCC',
+		isFeatured: true,
+	},
+	{
+		id: 71,
+		title: 'It',
+		description: 'Chlamydial infection of genitourinary tract, unspecified',
+		location: '292 Maywood Point',
+		date: '1/30/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAE4SURBVCjPfZFNS4JBFIX9UfOfpl306XZ+QYhG9UJtiihq4cJNQdQsIulLKhs/CAlNy9JRX+slKel0nFdCjOJsLvc8c+6dmQgi/+unKIqCyuucNTarb9SVGAOKsmAaCNCn3lBHxlzIEYC23wPQQxc+3lkFOPXTcggw3AzsNlqwVBMNh2hzKByQV4NGClGneWoOK+yUkFIOyOmAsVFcurMveMYZZrlJC7vaAbe2jw6B0HxEDPeYYfWBLeuALIE2g8/ZrNKexhGBOjPWQ+Bad7lSEhNs7tGewiQWeZ8y1sIRGVXFF80nxtewSeAOFXziBF64ZFocmw63rlFVPGADRR6owDOeGD7Ugdz3m2y+uhyfp8vw/IQceeqk3DEZjgg4uwSNhInJsc/aFqtqWS/ZuI3pBRUXv37zL30Ddxx1NEzXzZIAAAAASUVORK5CYII=',
+		isFeatured: false,
+	},
+	{
+		id: 72,
+		title: 'Sonair',
+		description: 'Intcran inj w loss of consciousness of 31-59 min, subs',
+		location: '23 Moland Circle',
+		date: '9/21/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAGeSURBVDjLvZPPK4NxHMe/F4dFymE8hx2YpEn+gWcHR20au4gdbCcnu3l6TqL8yO9oYSJmYbNSFsraZCSlbHJANEabaZtFYUzW29cOojzyK4f37ft6vz71/XwIAPKbkD8r4Hkeb6PX66HVaqFSqSCXyyGTycAwDLKyJchk8vGjCTTjATHNPk2MpujDCT4zl7etot8ZwYDjAuqBg6ii01v0LXMfBV27McxthMGbDsByTvvrI2rmqJmjZo6aOWrmqJnLkZY0V/Rsh7uXgim4w+bH+PI5ajs3UayzTgtaEy7C+BfztHZLzeWw3f0O1rSsoaB6wpVbaRQJwcoHN4N7jxoJXxdi8+mw2EZTcFXTCijokigNIsFfiC8T9QucvFlHMjKCRNCK0Ewa+NZuUPAVFiy4XSKauEeDp8ggnk50SEbNuNqqR2OD4ugtLFhwbSd1t9463JyZ8BgYwZ1vAmFHGbyGDNWXVjk2R4YOF0oRXShEYJLsnI4R87GR9O71EbFgAcuyszRrcpZdt7VLE6EpMhYwkcJvH1PYSsQUFv/bNT4D22mzuYC6IhwAAAAASUVORK5CYII=',
+		isFeatured: true,
+	},
+	{
+		id: 73,
+		title: 'Regrant',
+		description: 'Toxic effect of latex, assault, subsequent encounter',
+		location: '167 Stephen Place',
+		date: '9/12/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAADdSURBVDjLY/j//z8DJZhhmBvw41KQ07dzbk5kG/Dtgu/Jb2fsT5JkwI+bqZw/rsfYA21v+XE97f+PS5H/vx5Ra/98QN7+824ZTiIMSJr580bW/x+3iv//etD9/+fdpv/fzwX+/3LY6P/n7TIzCRtwPYYZaPvGH7dKgAb0AA1o/v/tQsh/oO0bP26TZiYqDIB+1/1+wef/z3vN/3/erPr/5aAOyHZdogMRGPIe38/7gvz+Gej3z18OG/8H2u5BvAFn7GO/Htdv/3pAQejzXjkhoO3tH7dIxY7EpEwMBgAr6O5Q8udliwAAAABJRU5ErkJggg==',
+		isFeatured: true,
+	},
+	{
+		id: 74,
+		title: 'Andalax',
+		description: 'Contact w agri transport vehicle in stationary use, init',
+		location: '2 Reindahl Court',
+		date: '9/19/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJvSURBVDjLpZPrS5NhGIf9W7YvBYOkhlkoqCklWChv2WyKik7blnNris72bi6dus0DLZ0TDxW1odtopDs4D8MDZuLU0kXq61CijSIIasOvv94VTUfLiB74fXngup7nvrnvJABJ/5PfLnTTdcwOj4RsdYmo5glBWP6iOtzwvIKSWstI0Wgx80SBblpKtE9KQs/We7EaWoT/8wbWP61gMmCH0lMDvokT4j25TiQU/ITFkek9Ow6+7WH2gwsmahCPdwyw75uw9HEO2gUZSkfyI9zBPCJOoJ2SMmg46N61YO/rNoa39Xi41oFuXysMfh36/Fp0b7bAfWAH6RGi0HglWNCbzYgJaFjRv6zGuy+b9It96N3SQvNKiV9HvSaDfFEIxXItnPs23BzJQd6DDEVM0OKsoVwBG/1VMzpXVWhbkUM2K4oJBDYuGmbKIJ0qxsAbHfRLzbjcnUbFBIpx/qH3vQv9b3U03IQ/HfFkERTzfFj8w8jSpR7GBE123uFEYAzaDRIqX/2JAtJbDat/COkd7CNBva2cMvq0MGxp0PRSCPF8BXjWG3FgNHc9XPT71Ojy3sMFdfJRCeKxEsVtKwFHwALZfCUk3tIfNR8XiJwc1LmL4dg141JPKtj3WUdNFJqLGFVPC4OkR4BxajTWsChY64wmCnMxsWPCHcutKBxMVp5mxA1S+aMComToaqTRUQknLTH62kHOVEE+VQnjahscNCy0cMBWsSI0TCQcZc5ALkEYckL5A5noWSBhfm2AecMAjbcRWV0pUTh0HE64TNf0mczcnnQyu/MilaFJCae1nw2fbz1DnVOxyGTlKeZft/Ff8x1BRssfACjTwQAAAABJRU5ErkJggg==',
+		isFeatured: true,
+	},
+	{
+		id: 75,
+		title: 'Stronghold',
+		description: 'Contusion of unsp index finger with damage to nail, sequela',
+		location: '622 Washington Hill',
+		date: '2/20/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAKhSURBVDjLjZLNTxNBGIf37/Bf8CI3DxwQo8aPA3g1XDTxwAFIJMWIIiJCUCQaZT1ICQYCISWRbyMgHwUUpJXyIQVa+kFpoWVpu922u9vt7s+ZgRCJGJ3kyUxm5n3edyYvB4A7jZaR4IW2iTDaJyMwj4Zu/+3eqZsNlq1nlpkwfGEFoaiKoQUBzy2erv8S1HS6JocXIkjIBtQsoBEUzcDMzyiedLi8jR+3z5wqeDu4fY4fCqh2twSJBEsKEIpnGSmVyIhkM5QGPxxEXY+/8ITgVa//XvvELu63Lh9iXoKpZQnl7x0oe/cDxW9seNi2RNZ2lBI6rWFUdfp4JuAHA/rQwgF2SSYa/K9BJfR5I4sx1Hb7de61xelTMjrEVJZlpYNfO0nJVAY3B2R2VsLbIaU19M0GcLHC4uUqzStGgmyYWlaPBQcJFVFJZXM4JsO3J2HVG2NnhY+tKG5ewcaOiILGOYMr4x3kg3T02UVUmB3sEg2OEeJJIiKSvWga7mAChgEUNcyheSwOIalQAbi7TTYmWAnq6LeJaO53s+AYCRZTGQYVhoQ0ars20DoVxydnFgfSkeBW3TwTOPd0rIZ0fF4UUPnBieqO9RM8aHNi3iNj0pVlHAsKHs0ywXpYh8OvYuD7PpkVJvsdutc9G4F1U8FX75HgJRFcNllJp+lYDqgsO724tqv/IaDQCnpJghmXAiFBK5gHl1s6bqRIz445BKztqPAKBrz7BjwEF8FN2IqQdYRUSZ5p9ykYIK0e2JdQ8OKbweUUtXuikqLvCCkjntIgyhppZQ1JRQMVU9IEmZI5RBBl3bYRkfNNli3ubGHTRM6d3tj5stFMbsW4llc5peVXWbVL1VbtSs20drVuWrtGuF5/yI366czVp1+SeeU9fhr7C4feT2DQtSX8AAAAAElFTkSuQmCC',
+		isFeatured: true,
+	},
+	{
+		id: 76,
+		title: 'Otcom',
+		description: 'Path fracture in neoplastic disease, right ulna, init',
+		location: '3 Hayes Lane',
+		date: '8/21/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAITSURBVDjLpZNNSJRBGMd/s7q50ZoWISZSRAgF5VpELFJ0CK9RneokEl1qO3URpFNCXqIO0aFLEF0iiAj6JBB0WYwOoikRJiXUYqbsumv7zvu+M/N02BV30YPgc5h5GPh/zMz/USLCVirCFqt+tZGfb8UUFxEJEBMiNkRMgBgfsT6EGms0YjwINU0Xn6haAmuIHrm0TkEEFFQWQCD3/PJ6B37+N9tFEOeVDxSIOEAhrDGoSAMSehtcwRhcMI8pfgLnIxKUdxeA04jTiPPYtucCLixtQGB9wCBOg4QVUDVYI64EYpBgAwdmZalsuUbZwzldIfHAeWUR8289gbMaPTOK8b+DDUAMVheI7W8pKzuNWA/E1byBWg3S4oteibZ0EO86DzhcMEdx/BkN+3aBlBie1YzMOZY9j6CU489K/tabOxOD9VVMhAuT5D6m2dl9FaUUTkKQEu+/FZny45w5fYL23R0MT79kbGr0djLV1hyp/u/Gk72E+b/kR+5VwBqxmtdfc3QdSmAjlsTeHqwKSR7tBri+FmWjUXURdhy/gphmiplX1MUSxFr7WCgsEVVxzh2+AcDNs4842NIJEKvKgSb37j5iNBJ6BN4XmM1Q+vyUQiFgOpthIpumv+cxQx/6iNU1AGi1mWlMptoG2w80DXR3nqKj9Rgz8+NkJtP8+rF8V212nJOptiHgGtAIFIGHYw+y/f8B3ntD1Kp2NbQAAAAASUVORK5CYII=',
+		isFeatured: true,
+	},
+	{
+		id: 77,
+		title: 'Lotlux',
+		description: 'Unsp injury of unsp blood vess at forarm lv, right arm, init',
+		location: '4 Drewry Parkway',
+		date: '3/26/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJtSURBVDjLhVPfS1NRHP/ce91wW9MZrjLLKCNxTEgcG9FLj0EgmbApPfQHBEHsL9B6CnrpRcQeQpIiWgwjlN42X3Kza7nKGEXRxFpMhVq7uz/OvZ1z5ubGpL7w5XO+536/n/M53/O9gmVZiEajd/x+/7jT6TwmSRIEQeDOvjEnhMAwDCiKUsjlco8mJiZuoGosYWpq6i3FHev/pk5PT29WiZm3MBKXy+WjIA1HH+NfNn93zG6z2brq9ziBKIocHQ4H2jwdLIZAXaTXqK5/ft/Ebi6aCJiUqkm7BUJdsSjsFVgQmgmYsUbdvubjqOs6b1oFdb5HfO08j7a2gUCsFrPuZzIZLCwswG63Y319HYlEgl+rN/0EPT9moJa2YZpmswJCKpvBYBCBQICfzNZMBdH/oDQo4ODxEfz+9gJmo4CKAoMYPJBlGfF4nCtYW1vD4uIiWhUZnq4Q2roGsf35JZwo7ENAT2QWCoUQDof5dZiCK5fOw8gn4O70gPyah7d/HEdbPiDz8KKtkcAgPFhZWUEsFuPdX12V8enVfXT2jQBlGanZORzwKGgnORhlbbiBQNO1moJIJMIJzvY6carbC3dHCab6hb6fCVJM4+SFKAxVvZW6d85da6KuaUZyaUmiKFTmgsCTn8Xp0GWYpWVaq2BotA+mtolWVxaHB8b6N5Yf3KSpk1xBsVj8mEwklVQqjXQ6jfy7OA71DMHpLsAytujjS3j9LEszTZjlLLxnToCo+vXkpN8n1E9h1ai8jYGrc92S+JUS7PD5q++75OhD/v0bZJ9PPm3Z76cxVK1VnhlVLProFh2cPbdqCIaWdeQvTLNXD529QmkAAAAASUVORK5CYII=',
+		isFeatured: false,
+	},
+	{
+		id: 78,
+		title: 'Voltsillam',
+		description: 'Disp fx of greater trochanter of unsp femr, 7thD',
+		location: '69 Marcy Drive',
+		date: '4/16/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAH6SURBVDjLjZPPaxNBHMVT/wgRsVDPgpdIya3QitWDepAqWKgHQaSiPfij4CHtRSEXRUmwKYW2emkRoYgHUbQEkVLFSmoJXWtRUtlkk7WZ/TW7yyY+57t0wyY1moHHLuz3fWbesC8CICLWAaGoUPd/1CW0hzyBIjuAqOM4zPO8WrVaxd8kviOZTD5ohgSAbjKbpgnLsurSNA2VSgWKoviQQqGAVCrVAKHVQQAasG0bruv6T5JhGGCMoVQq+QDOOWiTdDrtQ3YByByIAGTQdR3lcnlXpJ076WgAiBj1AXqn3EEUVVX9k8iy3BrQrDBE1xh+ZhLYenkZlbWn7QHCEOXDFNTlEXjGMoqLF3Hn7L6RtgCkX6tzKGWG4LEnYGvjUJfi2Hh82n5x9eD5tgDym1G42/Nw5Dic4iRYNg6eH4c00cNaAujogZSlhzA3E+A/hmHnr4N/vwD+dQCfxmLGPwGmnIX8+gqKmUvQpSHwjVOwNwdhrQ/g49hhd+ZcV+sIbP05thbETvk0rG9nwKVjWEn14Mu9fuTuH8fN3r2jzZf4uyH3q2GReRb6agw814/PE33IvZ2HazC4plYjT7gLR8TfZwljvUzFxWtwlbuwpJNYedQH6d2zAF4Ts5Q9GgZ0EiRc3blbh6azU0e33ydihRsn9t9uqjVVv5O8fwBNdbGhhwEriAAAAABJRU5ErkJggg==',
+		isFeatured: true,
+	},
+	{
+		id: 79,
+		title: 'Toughjoyfax',
+		description: 'Puncture wound without foreign body of scalp, subs encntr',
+		location: '741 Dunning Circle',
+		date: '10/17/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAHgSURBVDjLjZLNbtNAFIXrJ8mL+QVQoVUWICFEFZCAbrJCAdpFWCC1i1QgVLEoZYFAgrY0rhPHTmwnThP/BKetU9vxT7I5zHWEhEBuWBxpFnO+c+6dWQGw8qfUisQNdnR+tD+ojQ9txz2wHPvdea1f7fDtssj9ff8fs7VnlCbCJRIzwsxNMfuZIuoGuPriwtjqlOSndS4XQMlkJuPcm2F+yXSxUGrHcD9YUDcbfC6AalMyGaNuiIvDEdx9C0FjwqAJfMGD/qRZywXQvFk6SxwfOOhvdwpGRSnYb/pslASxMYX6UHRuaDB0aGYCuO9N9J4rhW65VTC39AWgN0XnnpAPMHeN2lT1F3XrHqzXBsxXOq4+u0idGN7XMeTiaf4IvRcKP/5oIxlEWSKJjCTayeClhubaUf4SlWcCp5el0ujtEGHrOtt8asUIxQmGzCzdOS6JxW/5z5hBHguc9qjJdzekfqQGSM4jdFaFsHX7hG+sf7/5I5HaG2dV7UFD0+6K2lTxs8W1b536yuoPTVo72lwKUO+Lc6pP5nQYZ/uIeyGCMw+shbYUoBTrGYBE9UmhdI1A9CD/D0BaP6nKrC6rrZGRRGc5G+H401LAb5HBZ7WpOp3z7uUC2HtXqDKJJe/k3fsF8TkmWq5zP6gAAAAASUVORK5CYII=',
+		isFeatured: true,
+	},
+	{
+		id: 80,
+		title: 'Holdlamis',
+		description: 'Pnctr w fb of l mid finger w/o damage to nail, sequela',
+		location: '6 Mccormick Center',
+		date: '3/21/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJnSURBVDjLpZLvSxNxHMf9C3rqw6QHcVaIKHVEKQQuVtuaOrelbldTj5mrliQjYUtreqUrbYaObf6k9oOmTAIz8TbS6c7FdqPChBCLIq64hz0+Pn2/MaI6C6EHLziO7+f1eX8+328RABT9Dz8/+LCJ5CNUnI9YxHy0TeLDLVJ2xixujBvj6TEd+U8BHzHT+ahF4MMUn51pcmYmjMRG0EBsBPROLmDkOZ9RWPXW0rsKcGdcnHvczOQ/fitFNCDsiMsIDeJAylvLpLw6ITmgliUpyoWpeC5E8egggbiE6EY4EF2ITkQzomRlSMsnBtTxXRJcFLPTjU50qB5xo1B8vVCMU3QgahKMypkc0IgyQT7SImXGjbi77ZeuP0awPjOBZd4Ipmg9LN9SEslBrSQfIWSROL8eC6yFwqsFWfuFOQOENydAN6mC5zcVRIJRywWZqWaR8zXgEZSFwo7Wp41AxRrAsXgFJl+Ngm22FWo8VVDtxjv8Q5D2G9A96/ESSxAGBI0jT732QSA/Asy6Cx68vAuetBuOdpfLBamROnJtVC+sDGvxNe5HnMKRNWMKoCMUeLh+aArqoNJRBmX2Upi3n2yUPaQX987Rq8O1QnJQw7N9Z5xLPaeJRZeCwJFvr7qgousIfMr6YWftPrBuLcy2Hy+WPWW2/yyJiLOMWsTLYvtUEo5c3nkYDtkOwpfNR/B1KwTvlnsh1lYlRVuOFf8m+Bvz16rNK0Pn4f36MAhvpuED9xAyQQvcURLbexJg5jpOmNm+OthacMHbhR5IeQ0Qs5I7exZgntBkU8hU+XmpV4lGILdDVMU+/P87L+2y1u3sopMAAAAASUVORK5CYII=',
+		isFeatured: true,
+	},
+	{
+		id: 81,
+		title: 'Home Ing',
+		description: 'War op involving chemical weapons and oth unconvtl warfare',
+		location: '20393 Northridge Street',
+		date: '1/18/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJFSURBVDjLlZLfS1NhGMcF/4Jz6YqkSTRCLDUZipDWSBdjpDFxIdEWLoJ+TJscmqGxtXZqadtqrZP9QoVqV1k0gtWl3rRLkc2z4zxn22lhSLdG9O05w4TC4bp44eWBz/f9vM/zVAGo6ooqjq6IAvNjBZ1BWavWKj1bFwLRMSmL/wNvBRDYbHpQQOttKdHiy8YaPdlEw1jWUnEAgax1qoBNkDsZzqFpXESdS9BWFLAJ4k+RwGSbdwW7L6cNOwYQyBwcW8F+VoiphdphgemdCaJn2rdhn+uv3jGAQMtR/yoI5NSCNeZNBz9zCCx4cfplz6veJ8bq7pC1cCwssx1BOdE+ISfaAnKs1S85SgEE8qQq7rqYEjUXUjBGQ9+5+RuIZ97g+ocRHA9N/jjxMA/bTBHtARkDzxRcef0VfXwehzxZx7Za9PIdd3wIwfk4LFMKBmeLNCG5ZNhyM8vZnivof1TAgVGRLfs3Y6hzY/jtR5x5UYTe8+kXjZdR69Qz3kYW5rCEfazgKAcXjvhaoXc3osk9joZrkZ+km6inSakjvvVuDTo2o/aNKWug90sM6Sb6SPVUpKSbVCd17qmCS/SlPc508q9V/vfQbiStvAJLNA/dqMCqtb0ugTXdlWAMSKCms2UDSNdgmJDBvf+GendG3UiGdLX0qjg0q+Aw1TTnU4ayAaTrMN2T4J1bgzmUQ93VZehcy+jmVuGc/oKB+zk0jwjQ2JcM2wZQdxnS5WudaXWdVd0k7QhLr7KawaV1Atdr7It8zdlF5jcS1qLOWBIaUgAAAABJRU5ErkJggg==',
+		isFeatured: true,
+	},
+	{
+		id: 82,
+		title: 'Stronghold',
+		description: 'Nondisplaced fracture of right tibial spine, sequela',
+		location: '18772 Fulton Plaza',
+		date: '7/5/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAITSURBVDjLlZLNi1JhFMaHiP6AvN0Ls4vob2jauYiIFoGBtnFlG1fSws1gDBdXLhIhdaEuvILfjtfK0cyvRflBeHWUEBW1nHGKpmkcpWw+ani6r9DCutn0wuGFl/P8znPOeZcALP0ekUhE7vf7HR6PZ+ByuQZ2u91hsVjkUrl/PITDYbnP5xMajQb6/T46nQ5KpRJMJpNgNBrlkoB4PL7M8zwbCoWaXq93RMStVguVSgXlchmCICCXy8FgMDgkAdFolK1Wq+j1emi326jX6ygUCsjn80ilUkgkEigWi9Dr9ac6nY7TarUrc4BAINDsdruo1WpzQtEZRDiCwSDE1pDJZBCLxaDRaLg5gDispnhmvRKrJJFU/SUWBwqO4+B2u5HNZqFWq8dzAKfTyRIh6ZVAksnkrDpxkk6nIW4F4nxmrghMpVLNO7Barctms5m12Wx46bw23XRf/TF5JsP4qQwHT2QYRWXYW7+Ix6vXT5VKJadQKFYk1/g1x5z/kmUU0+otnHy04Hi4hu8HHD4n6elegr7/z38wyTA3xy+Y7mHvAb69UWDauI0PiSuQEkoCRil663CwhuMddlad3EfbD/F+4zIWAvaf0+dEm48+bdDYjdMYC3dn4snmvYViya9MYoe/NNx/fQdb69R4EKGYMwOGPHVhO0qt7r66gXdhKrJIKAkQq6nehqijflCmOov4ry38T/wEpFjkJMz8PioAAAAASUVORK5CYII=',
+		isFeatured: false,
+	},
+	{
+		id: 83,
+		title: 'Namfix',
+		description: 'Nondisp commnt fx unsp patella, 7thD',
+		location: '7672 Sunfield Plaza',
+		date: '1/23/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAHISURBVDjLpVPNK0RRFP+9D98syMwUspHkm9I0YkFZWBFKkZ0s7a3Ewh+ilChK7FgoZCJFKYlYKB8zk2+Z5t0P577He29kQU7dd+6575zf+d1zztWklPiPmOozt/U4SThjXIoyIQS4AJjSXO0lGGlvcXAm6Vzsz4xUhm0AIeX4QLig+C+ZpxbOG1wGhGYHr1zMUmZGWRgs0ha3PE1nX/8mWmdgWTzLB+DUYbhm9FfZ35IEyrhXA3VXJfPbsV8B9LQUIeUHYJ8ASobag1jcucNgW8g9W4reYSDi2YnnZDoDiwCokDANct6NwTB0LEdj0HRA/wxa2SN25JNBEdWluUhZ366gqmAaGvrCAXKOozccTGPgt8+vn8GYSGcgyTYp3dpBnBg42nbQPRBTo5bTvqYkmxL6AQhNTWQGBXY3B7BxlEBXozcW64dxRKoKUZBju+P06gl5WaaviMJBM3TNDlbypemIZgHYOnlwASsCmW7nHADGnBoQ3c76YmweJ9BR5zFYjsbRHwm4tmJg6PhWA7pCXXk+bu7fURHKweXtq/sWaksz7SC/CCGFrwtyZ3r+rCnFRZ7qr1qc6mLZj4f9OEyPL8lVpbX/PucPv5QPKHB1TdEAAAAASUVORK5CYII=',
+		isFeatured: true,
+	},
+	{
+		id: 84,
+		title: 'Lotlux',
+		description: 'Nondisplaced comminuted fracture of right patella',
+		location: '94 Park Meadow Street',
+		date: '3/20/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAIgSURBVDjLdVI9a1RBFD3z9r3sVwrdWCwYUkSLWKaQWOwf0EpIKSIi6QSxWyxSrE3+gUVEQREsU1ooiIRImhSCCImNIcj6kcVNNm/fzP2yeJu46yYXDpdh7jlzOHOdmeG47r+7azeuXMdWZwNiClEZQMHKuHqhgedrL/Dm4Xt3zIkxVEwMtXxYVMCqg/4PIfAw5T+BwDADSGRIJIeq5neeRgSi4QMFRhEVFKMSSBhBCEEIJIxioYyyTYICne2AArc62x+X72Q/MXXQRplzu2kUoV2ZwttvH0CBW2cKvLJfe/3v+7147vYkTc/gSCIYZ3CcYrq/i1s7r3tLs25vmOOOf8FeXlsA3FqYf1T3oQhN/4CzIxhlMA6AK6BYcqhsP2mD7Gby4PPmaAbCTZ67V/dchqRdSMiJRgGapeDub6SdLrKZxboeSnMsRFNuUHUW2j/MiRwAJih5GAco9cEH++hzBfDSGM9AraZWgFEG5QATgnJOljAQ8RnEM1Rc7ZRvNJgIlOnE+glk0DnAxMP0lD0wtY6jHqAyap19ngN5AAqwBwidcQdC63H3C1ycQCWMWM9fFkRJGSX/AxywPu6gryvx1rN24lJESQlQhQnBiAAzFMpVFKsJ4k8bbdNoZWwPACA8vrwERivML9aziYsQVphPAUoxcbSLeGujreyWz63urJ4qAABZ89KC9rgJ0oaaq0EAM9dRxrpOJCvnn37dHJ7/C8hDreOQ71qxAAAAAElFTkSuQmCC',
+		isFeatured: true,
+	},
+	{
+		id: 85,
+		title: 'Zathin',
+		description: 'Subluxation of T9/T10 thoracic vertebra',
+		location: '55 Gale Hill',
+		date: '10/26/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAInSURBVDjLnZPPS1RRFMe/b3zk5DCVmlq+0ZBCoTEXWkEELmzhqiCocNWyTav+gfoX2gq2bhET/VgUIczKoVUGxthIKqX1tAmG+cGM7/56nXvezDCtDC9czpl7z+ec7zlznxOGIY6y5p/N3ZVKLcb+J/j+23uphczt6x3wLYKfe0Nne53DFBB8QQiZFkK8FFLNSynjBL86MzDY9X13t3qoAoJ7Cc6kBrwYwR8Ifn3OSzFM19POYu4xSzAmpG2gaRutQYFQStOW+H1Qhh9WcTKZRK1exy9/D+nEEI4hBjdtPAwPX2pXtC2FoWlu6yv2Pxe/YulLBk7o4MnVBzgdP4H19WW4LTAIqgxYFRGsyddtez7ej0cX71AFg+NaQWsJKRtRAgtYsKfnFEZGplGvl7C/X8Do6BU6l1hbe4PJyZuY6nKxsZFFqfSDz5UKELM92grGKIa3tz/SxQHBl7G1tYJa7Q/Gxq5xcKGwTEX6eC6RAkqgteI+7YFdlYqPzc0VNBolTEzMIZHog+/nkUwOYnz8Bsrlnxxri9pCMWMa0NyTTQS+tBXy+ffI5ZZ4Lp43hWz2KXZ2PnErVn7EBHCtDCtfa8FDmZlZYGlC1EhuP99VKnuYnX3IfrH4jeGobQ3X9hZlE1hdfdGeRyug85+wtjXwyCq4QRCwpO7uREewafqm/bv1LujJNW30CZCCBvX7jvtWys4hIGvfg+AkkVzFQGT/Xc5RP+fW+gsEgchGXj0/PQAAAABJRU5ErkJggg==',
+		isFeatured: false,
+	},
+	{
+		id: 86,
+		title: 'Quo Lux',
+		description: 'Person outside car injured in clsn w hv veh nontraf, init',
+		location: '966 Packers Drive',
+		date: '1/3/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAIcSURBVDjLY/j//z8DLqyePcvQuW7VQomESay41DDgM8CpdkVm94YzD0RiJ3Iii4snTGIjygD3xlX58/de+y6ZOFkAJqaQNk3Hu2HlaaIM8G5eU7r+5L3/silT5aE2q9UsOfw6ecJW4gwIaF9fc/Dq8//yqVO1hWL6pZuXH30+d8/VhymTtyYRZUBw58aWc/ff/VdIm55as/jQraM3Xv71a1pZTXQghvds7rzy6OP/vk3nvjx4/fW/V/2yuUTFQgc3AxOIjurbMuHuq2//t5x9+D+2d+N+gtHYw8ssv1xNeuYuE60zc2UEOzNn7D5z4cGH//ETtx8Vie3nxmsASPNOU53r591s/p+yM/503cf+/6w9N/4/BLogatLu/RJJU6ylEicy4jRgpYbsnDNu1v8nCHFYTRBkD77iYf1/zt7b/5edeff/no/D/4vOVv9nSPJn4jTgsI3Rm7V6yutB7BWqUjMvBTj9L118+t81f8f/ixXF5h6w1L+yz0LvfjcvExdWA/Za6d87aW/6dLOB6qG7Xvb/12jJH9pkoHL6mI3RpzYuBua50oLlJxzN//cJcShgNWC6JH/ycVujH+eBilZrym8AapLYoqu8/oyD6d9WTgaJFeoyU4/amfzo4WMRwRkLvfys8n0CbGpd3IzMIP5sGaGCm94O//eb6ty96G77f6W67BKScmMP0L/L1GXmA732fb2u0k5gTMmgqwEAFiuGP1TJcvYAAAAASUVORK5CYII=',
+		isFeatured: false,
+	},
+	{
+		id: 87,
+		title: 'Bytecard',
+		description: 'Presence of right artificial hip joint',
+		location: '07691 Autumn Leaf Park',
+		date: '12/5/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAIfSURBVDjLpZPNS5RRFMZ/577v+L5jmlmNoBgE4iLIWkgxmTtx4R8QLXLRB1GYG4lAwlWkCH1sShcRuIgWYUQoBIUVgojLyowWLSRhSCNtchzn672nxYxT6hRBD/cuzuW5D+c5H6Kq/A9cgM6+0VtBTk4tJwM/kS7BspvDsAc7w4w8uXGyxwUIrHRev9AcqYlERMRFAS3+E1RBdSNWglyGs9eenwbyAsuJwIvsjUjX7QfU7duF51gC9cBUYYT8NYJjhM8fZ+nvuUg2EClaSKbBGJfGhv0cjLbiGAfVAMQFEYwIIgZjDCHHYO2WGmzY9DwfP1yRz/cv0KLJLQLZTIpsah1EULVYDbDWIICq4khALpNE1W7PQBW+xmN8W4qTtTmsBvxIL5IJ6pECp8ZbYX0tDmpKC3xZLCe0kPr1oBFUU0XyCmEWFnT7HNgC3zhlGMcr6TtITJBLvKK6+jtX7z/ElDV4cGJzBn9COv6MPZXTNDcfpX53I6/nnrL+ftKPdtfddAHUWgRYmp8rKRAKPabtSAeBCThc287Eh1GiTS3Mfxq75OZnLd+coYG+YvQ7rtzpJyQVdBw4B8DltnuMzw4DY74LsDNs4jaXqqotl3wLC4KFw+panLnYNG9jU/S2jzD44gx+vlYpF2CHZx6dH3h5LJnVJmtL7dJxf+bdtNdyqJXx2WHKxGXqzSTAkPzrOke76waBLqASWAWGZ+7Gen8CJf/dMYh8E3AAAAAASUVORK5CYII=',
+		isFeatured: false,
+	},
+	{
+		id: 88,
+		title: 'Quo Lux',
+		description: 'Abrasion, left hip',
+		location: '71299 Debs Center',
+		date: '8/17/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAMZSURBVBgZBcFLaFxVHMDh3zn33Dt38poknTSJTVva1LaKxpQ07UJLKlQRTYVUcKNCwWUtCuJWXLkQxIVCl1kIIaCCG0GwXdgkamJS0hLHWs2znbym05m8JjP3nnv+fp8SEQBe+fT21XRT6h2t6ANCQAGgAFEgDuvcfLkot9R26ZOxG4MRgBIRAF7/fGLs2+t9z2itmgU8BAAARACEwm7MyHSZ9ZVaJTd3v3X8xmDNAABoT50KjNf81yaeVgoUiINEHNYK+3HCxacbOX/SMOkKdeJOlwY++KnFAAAotdQ0/PuEV4qeUE0snvg0+Yfp6XqD+rAdjQIcnU0Bg/2d/BKspxfW6oeViHDlm9euvvTsueGXT14Ev5WNSsjufo2NJzkWV6c4f+x9WjPddDc7GtMeKd9QqUa8+9WM9f5sGLsw0Nv33atnLnmSbqa8H7ARBcwXfKCF57sCbt0d5anMc1RshpVywmIx4njW5/vJtUh3tmc/7j/WG/yjEwqR5b8tw9/5mIe1efIHbpNvzHO64yCTuR9IBR5h4BEGPoIGpdGHs50XSiZiubKK5xqYXdwlCUvsHv2NOTPN1KMchw50UCwv4BtN4HmkjMYBImAC46fL1RLFxGeiuEdp2yMIY1pSLxBtHmX/8R/ICUecRPieAgFBkThIHJjt3Z3iKcKuOtvB0rrD+S0s5QP2ZqAuzNLeukZlfwctKZQojAYHhD4kVtC55fkfo60qtfI4qdQKKooIwibCjCXVPMXxTI2Zfx9wpK0XAZyAAL6nsZHFFFe3vvx58tc3L53tP1Jo81mq1YicQRpX6c4+pFaGO/kM2Z63mZuNcQDASIdPXHOY8S+mls5e7728+djMDvR56kRDiE0CGrOWuwtFVosHeevyZ6TSGURABO5tWsQJcdViAKa/nr137sPR6nbhQfrm8ijOWYyfhvoXOdTzHnPlOlTZ4gREK7RTGKOcTZw1AAAublv/aGgouxdLvYhoBBwAkEk7AEQg7SuUwvme2kmsyysRAaD/2s1rNpYhpdQZQeoAABAQQBAAEACqzrk7Gkb+B+5ReIstDYkxAAAAAElFTkSuQmCC',
+		isFeatured: false,
+	},
+	{
+		id: 89,
+		title: 'Bitchip',
+		description: 'Inj/poisn/oth conseq of external causes comp preg, third tri',
+		location: '78 Farwell Place',
+		date: '5/5/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAKASURBVDjLxVNLTxNRFP7udDp9TCEtFSzloUBwY4FUF0ZjVDYsTDSw0/gjXBii/gk2GjZudO1G4wONK40CGkQSRKTybqGAfVHa6dy5M/d6WwMhccnCk3yLk3u+L9+55xwihMBRQsERQz2crK+vX3Txyn1SyfXDMnyE24AjwR0Q4qLQw1M82H4vGo1+3OeQ/RZSqdQTV2XnhkKzmqaoYJaJQj4P27LgcQGNdTocRmFzyWiJv2zqil0/EJDkt67C0oAGhtTmJpLpHEwSAPNEwBwCy+bQ7W1EsYlYWxiKdMSjvbPhniu96tra2ohmbAxovILZxCq0E5dh6M1g0jllAqYEZRw7lhRp1ZDdewW9tILAykRPingfk9Ti7BbJJ47viiC645cwNm2gYPAaefhWH4TgGB79JoU4vG6Cu0MNyMx/Bv8+hkzJtlWWW27yRfrQ0dhS+4sq0aAOqHQgOK8JGJbMKZf9/h1asPssyv56sBejqupuinEtEHI5jgNFURCuA5JZB6a0fPvBF1BLClbsmoPT7X5wKVqrbWhFqDMmFFHcKLLiNmzbBmMM7WEFAY2jbDCUJbFsMpQkjgUI4ifVWk21lqaXoBQ2mMJ94adi6wes5AxoMYOw7uBcl4JTEQFVULhhId5GcO2MJtuUEykXQRc+gb1/hLTl/VobY2JmctyfnTvvUwlEqCMPvdGEHrKgevj+wlTrxO8VL1+ebLaSc1gwA2kj9bPlYJGmPrx7bm0lrkbIrhrwewFPPbjbj+pzdSPtUh7YXsRqpiT2gp1T9NfEhcGR1zY5fEzjo3c8ud3SIKV0SJrp1wgCLjiS7/CKaU5LPCOcj918+Gb+n1X+b9f4B22tbKhgZZpBAAAAAElFTkSuQmCC',
+		isFeatured: true,
+	},
+	{
+		id: 90,
+		title: 'Lotlux',
+		description: 'Occupant (driver) of 3-whl mv injured in unsp traf, subs',
+		location: '85 Sundown Terrace',
+		date: '10/23/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJjSURBVDjLpVPPaxNBGH2zu026piEpTayhJVBzswR/BBVvXiyKiJeACv4LnnsRQ/DqIYcilApevQuWHIpgqIhiSJQiCrEBf9EGarqm2eyP2fGbSZMWjCC4MHwMM+99771vhwkh8D+fcXhTrVYf+75/2/M8gyqoquW6rqxP8vn8rZEE9Xo9RoBH8Xg8Hw4fgUMgBAGUNlI4ORlHubx6k3Z/EtRqtcsSnEgkZiKRCDab3yC7B4FAIAIiEuBE5jjOaAt0eTWdTquNbffgEfh9/S0RBMN1aeGKsjGSQHoMhUKwLKvfmXOcmD+luov97jLovyqQzJxA8pIciJRer72hyimgLsAYGo0owqaG5ZUl8gQmk2nvtKYXF4stpaCflVBEkmA+ewaatYZo6BmMCJ0LDsdOYmv3Ivthxa7R9ae9nn2MassYeOsrkJK5kj4VXsdMbpb2LepJ1qwuxhvPxdef13d1nUm7akiaJBiC+UFw+hgdGiac7fOwv+dgTpiqUdfVlWTf7ys3ZDiDv1EGJy0IGZwG6Bp1TdYphi40Nib7EdBlno/hVJQCOQVd15X0YF8FYwE87mLn8xzeradJnaUA3HPpjq8mpghIwetKpYJOp4NoNIpxM0x/IEMgLToaYqkaTp7dAHqaAuiMjwnuCd/tKNlMyi+VSldpGsVUKpWbO55BLDYFu/UCem+NQjTgenvwHBsvN5JfYtOnZ51u2//QbGVXlh5+ZIdfY6FQWCCiB7Syg8cka+TcXVi2D/PTfS5FKCuZe+LXHhfsX57zjeIr3t7aRDooX2C+lbF5aKJz9M6ytd0UvwHmbqDcpFnnSAAAAABJRU5ErkJggg==',
+		isFeatured: true,
+	},
+	{
+		id: 91,
+		title: 'Otcom',
+		description: 'Contact with powered kitchen appliance, sequela',
+		location: '3 Bashford Crossing',
+		date: '12/10/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJySURBVBgZpcFNbNN1HMDhT//9d926NWRb65BtB8MWAZGwZIGRcNAZD2qA6E6cOKDhAjFmBzwYYzQeOXHHiwfFAOHAZScUEmeUAPFlWzMDyOtm27XdoF1/3xdZ0iYcvBCeJ+HuvIiYlm+vVD535yN1GzIz1EDMUDXUHFFD1BA1RBUVR81+jWkx9xNTe7I5nsMX3y/uimnpjW7mGn+fYa1RxtQwMUwFF2VdI37s2kvVU4gJosKn+74mBE3HPFW6MZncnHybdGaAzKadeBA8CNqsU1+Zp2f0KK8PvguJiLbHDSGIEvOUqw0PRZdJdR1Aqr8RdY6hWqJRKfBnOMTS7T1wu8izDo730RQlLl57o8PVPuzuHQWSWP0RxOuU78zQ9+rHTL5ymA3nZpeYmhigrVhrEESJTXXMxY6ls6O41CH5MoSASJK/CvNY4SsiWSfv3Vy6+h6SGiAVw/bBDM2gxC52urN/PFcvzWNidGRGwGLyQ2/RUyqgoUlt6Qb3XjrJO3tHiFIZNiw+qCFixCZ69vH9n3/6vX5oevdwmpXCRXLDbyKNCs0nRR7KNmrbP6Oa2MKFa6vEiVUM2LGlE8fA3XF3vjx7y8srZV88N+YPZt73ue/2eWXhB2+bub7stSfB2+b/qfiRU7Me0yJmrF3/hHRnH8uNPKXRU9yrZ+FmkSgBweDK3AptW/MdqBoxLZvtF0LtDsv9x5nYP8XlP4pM7szRdn72Xz6YyNO2cLdKMoKYlqr0kh0/TbZnhIflOlsHurj1aA1VQ815bbCDhbtVnmXmlnB3Nkx/M3dVgu5uqnUHUYIoKkZQQ1T4P5XVxsWEu/Mi/gPrlHrAGd9XNQAAAABJRU5ErkJggg==',
+		isFeatured: false,
+	},
+	{
+		id: 92,
+		title: 'Lotstring',
+		description: 'Disp fx of anterior wall of left acetabulum, sequela',
+		location: '083 Warbler Crossing',
+		date: '3/24/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAIRSURBVDjLjZO9a1NhFMabozgIgqjgYkGwY7dKRScXBf8C/QfUycnBDpk6dHATkiGziEtFcBGkaZrmQ5M2sWlD0zbahgSS5t6ENLm5Nx837eM5r016k7boC8/ynvf5nXMeeMcAjIn43GJNsab/odssGvgcgKl2u31g2/Zhr9fDWeI6PB7POyfECZgWc7PZhGmaA9XrddRqNZTLZQUplUrwer0DSN/sEoA8aLVa6HQ6SDcaeJ7L4dH2FkoM0DRNASzLgjTx+Xx/IaMAMX/QddxMb4CSSdxY+4ly/QA6342upDIZBaSYfm09xeYE7m9u4v3+Php8J6tUKhU1SbFYPB/wbPc3KLGKh1sZWLYNzkWFJ3k0eC3Jo1qtDgNoJT7pcrtfzHPhCne+uBLHR11DgB9/5bsFlkBkf8MwFGgYkEzMS1cGgeIxPEinMZPbA0XCoHAIV6MRdLtdlY9ARMOAeOw1+f2rFPsB+h7F20IBc/k8JgS4HMQdvpdVBCCSaU5l4PJ6ZsV8mZU1m+rB49QaaCmAl5mMmkAk5iEAdyUe9QkFl3QZ91U2C5uLs3u7uBBYxCVWmDPoA/o6AUQjXxhwJOZ7HKDG9De/sqCAH7S4gJmdbTX+qE4A4VCeQssGff70rWBZR1J4urGO68Eg3DyNddztDB0OMjjO4S4HZErhvM/kNPNbQ/1eB2BcIP/xnfuSrz/+BzfCswvzr5lXAAAAAElFTkSuQmCC',
+		isFeatured: false,
+	},
+	{
+		id: 93,
+		title: 'Bytecard',
+		description: 'Cystic dilatation of collecting ducts',
+		location: '7025 Sugar Pass',
+		date: '11/6/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJRSURBVDjL3VNNaJIBGBaCDnXqVlEQO0ixrE1a26G2uYU0tyVaA2lsHtS5HzuYhTkl0CHZmpT/0coO0UVS6AdrkCPFkC0am+ambea2GjOYuubmN9vG0/eNLl1s0K0XHnh53h8eXp6XBoD2L6D9Jwuqq6v3dnd3X9fr9Rmn0wmNRjMnk8kqSewn8wTFUTWqh+r9YwGTydzd1NTUbzKZkEqlkEgk4Pf7odVqv6jV6kA8Hl+nuGAwCNfgVcSeCjD9XI/xR2xM2ErbaeXl5RcUCsVyNBrNCAQCb2Nj46ZEIoHZbIZKpQKVU5xVWzu+OKzEcvgVkFtANvwMoYHzKUpBv06nIywWi5TL5e6pqanJ+Xw+jI2NIRAIwO12Q9lZQWSiNwuFry+w+O4O8hEPNmeDiDzuIGgMBqNLKpVm7Xb7NT6fP8RisX6y2WzweLxtKDrOIB3RYCsfRD4hQ3r0CqaeiBAebFsaNfPotGNkNDc3TxmNxqzL5Up7PB44HA7I5XLYDEJkIipsESGszQhBzLdiZbIXM47apY/Gc2XbR6TT6btI2WUcDicpFotXe3p6CBKFu3KmdfGD8vdwO4i5y/jxSY1pa91qxFBxuqgPvH0HLk6+URS28gEQSRHW59uwTCqZttXnYwNVR4oa6WHXYVHU24uJ1/fwbaQFa8lWpMdv4LOV9T1mrCr5qxNdt+uBlVnEHlzCcO9BvL/fAL/u1ELYUHl8R1buk5RuFEJWFEZMGNGz4BIfyg2pTpzc8S+0nN1H3BIe3fAZGjbeGuv8L5WMkmK/8AtkdLda3u0iOQAAAABJRU5ErkJggg==',
+		isFeatured: false,
+	},
+	{
+		id: 94,
+		title: 'Bigtax',
+		description: 'Lead-induced gout, left hand',
+		location: '1483 Huxley Crossing',
+		date: '6/16/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAMNSURBVDjLdZNLaFx1GMV/d+bO3DtJxkwSSWNq05YkrTVa04qIiOiiRIxgE2ohhUIKRQQFBcGiIiJiFaGIYEFERFy5dCE1pQ8JIbSEJhG66GM6idOk6Uwyec7zztz7/z4XlSw0nvXhx4FzjqWqbKXb517rQeRzFY2ryPv7Bkf+3Mpn/RuQHDncqqLvqMjbLZ2DCVNZZjV9uaii36uRr58Yunx/S8Cd8wMRVT2hIqfi2/u6tu17nZAYiplJIk6YpdQo6/em7qrIGRX5sXd4vLIJSJ4f6EP0Y6ep94Vtjx3BbeoGrRGs3eGv0dPsePx5QnU7qZZyLKamKORuTqgxpw++MfGbdXvk8E+IDD/cNWS5zU/iFZbZyN3E1Ir4pQyOVaWtYy94a4QbOgi5cfKZJIupKcprd3+x1cjxPYfOWn5hmWJmFKnlcco5yvkM+fkFDg59SyRWD6U0Wkph5ZO0tO+nsRmmf589aqtISbEao65DvLmDSu4GdU0JEk0xYpTBmwMTBW8BKvOUsxMU01dwdx1BjZRsFQEBrCiRxm4iThxvaRIpLhEJg1WegZBSy16ikF8niCUg6qB+gIpgqxEe9GBAq2DX47YeIIjGcL0VJHuRDb9A4DZgnDhSrkGgSC1AjcFWYx4UqgbEBymDVrEbthNv28PG6iR+yGVlIsfKtTm8xXVCD0VpfY5/EojEQpEIEINgBaQK4oGpgttOoLA6sUIt6/L08Q9xdvdQuX6BG+OX8IP1+pAaGZsd+4bK2hw47RCuA1MD9QFBfSFzJUn3S0dxZ0axfj5G3eyv7Opopja3HthizKuF+fHhW+mxU82dh7oe3d9POL4XyinwSpiqj1mr4bbthv73Nidsf/oIIU+czSlP//Bsq4q8q0bean9qINHe2w++R37+KtOffckzrwxSP3eOaiVLGSjkw9yaYeE/Z7p29kCPGvlIRY51vnjSqiylmb/4B3be0x0tgWWH7lHIBaQXw8b39BPr/+589UxPn4p8gEhURb7ierWntHr/zbCxdpqwLih89/KF4Iu/AXSvuZLBEiNYAAAAAElFTkSuQmCC',
+		isFeatured: false,
+	},
+	{
+		id: 95,
+		title: 'Daltfresh',
+		description: "Wegener's granulomatosis without renal involvement",
+		location: '6 Messerschmidt Road',
+		date: '11/21/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAEZSURBVCjPY/jPgB9iEVoqPefllFPdNk2GWBUsVpz9ctL1rkcNW/v+59VhKFgkPfP+xI0dF+uC/jPkWCR/Q1MwX2TGvf7Nretr/UG8BO2I5ygK5olP/dCzpWV+dVAhd+bB+JawrT7ICubIT3nbvaFpVkVqgVDa0diO4CneN91E4Qpmq0560jW/YXp5XB5nyq2YrqCFno9cJeG+mKk48UHHjLruMu8czuSbkfUBizxeucrDw2GGev/71uW1jMVrsq4nPIto8F/g8caFDymgetxbHlVLgDjxnWExPjPdb7sIoYRkk17FywJRECdY1Xux201nMbSgLufO25qyJUY1yNrzsus9JxkscZHMG+kVcN7jqWueowARkUWiAgBEUvolGfpITwAAAABJRU5ErkJggg==',
+		isFeatured: true,
+	},
+	{
+		id: 96,
+		title: 'Latlux',
+		description: 'Laceration of right renal vein',
+		location: '932 Anniversary Crossing',
+		date: '1/18/2022',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAGnSURBVDjLnZOxilNBGIW/mXt3CZsYQQtjJYqPkE4L8Q20WARbmxWEFQvBXrByQdDKF3CL1QcQH8DOKmVIkWIFbdybTe7M/x+Lm+zeFELcAz/DwJnD4eOf8OD5p4d37w2f/qrUwR25k3PG5cgMl5AZ5k5/O81Ho+mHo7e7RyxVDu8M97c63TjosIk61cz2gfOAWVKc/T5hU50mxfa9lInXj29vHPDkzYT1ADkAi2x8/jq6fpy7N37+8eJfPHqX+zx7/1397VSNRtOXJRIAMcB4tnOr19thcHWjMt1qZu9KcwMghEBVi+o/eZSW81nARXiUOaXzgBYPuTCH7I65Y1nNyKlN3BxcwtwoLTUNItDmoRhQECWRECIhGKEQhUfK3Pg8G+V0PPm2d5Du5zpxZXDtrA0BCoEkCkEMBWUAC8Ji09TNG8NqXnz8IUnK7sruSmaqzTQ30yIlndZJszrpZJ4kSY9efVnfqjaP9hmBECNFEQkxEIuVP1O2A9Z4LB8Xy3OlrbbfbD1gOp4c7h2k3VwnzAx3Jy0WzY90Q6ZmK93xBsNh0JL8RfUXD1Ut4VHY1QEAAAAASUVORK5CYII=',
+		isFeatured: true,
+	},
+	{
+		id: 97,
+		title: 'Duobam',
+		description: 'Displ commnt suprcndl fx w/o intrcndl fx l humer, 7thD',
+		location: '64715 Vidon Trail',
+		date: '12/26/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAHOSURBVDjLpZOxa1RBEIe/d/e8FKeFEA2IGBWCICZYBSESBCFglUDSCJZaRBBbK1HQ0s4/QQlCgoKdoBA9sVBshCBETCNRiUUg5PDt7MxY7HuXdxgEycKwyzJ88/vN7Gbuzl5WDvDozeZtd66p21EzQw2iGaqGmhPVaqFodNTs/f0rI+M5gLnfmB0/MPg/le88+TLWU6BmgwDtpevgDhrBFETSORQgAQoBEbZvvUJEB2qAqg8ORw6BxRQeS0gBUkAMsPIdAIm60wNVKwEZrG+AW1JilpRotQNDQwCEOiCWgIXhe1w+f/if3hffrXMhxH4Fooa5kzdT0rNPi3TWlrl6bp7PP1d4ufqCiyNTzIzOUYiz1RWCJECjsuBA3swAmBmdoxu6APza3uDB9EM6a8sAFFEJYsRoOwBRww3yxt+Su6FLq9nqAQuxst11QDTcnX2lhc7XVO3jtw8cOzjMzafzTJ26RJUL0B7Ia020dNlsJAsTJyaZODlZziVj+swsWZb1AarJJUCMeCnn8esfaWruiIKoEtQIkry3mlUx+qfg7owd389prd6+9/7CbsvMrfaQ/O3dhdWzQa0tUZGoaDREjahxV8Dm1u/nANlev/MfAjw0JrMu09AAAAAASUVORK5CYII=',
+		isFeatured: false,
+	},
+	{
+		id: 98,
+		title: 'Regrant',
+		description: 'Blister (nonthermal) of left ring finger',
+		location: '9 Holmberg Alley',
+		date: '12/18/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAImSURBVDjLpZNPSFVBFMZ/9859+C9J9PmPwpeUi8qyIB5JLQqEoqAQIUqCFiFB4aJWrsIgW0TLyHYRBFJgYBiUKUkmPYwio02kuZBMny8JzT95Z860uI93n62MBoaPc4b5zne+meNYa/mf5QE8GPp51VpajJXNIoIR0CIYIxixaCNZ22C0xYi87ThbE/cAxNrWpnhh9F8qtz8c251RYESiAD1f76NFo43GF41v/BCNzpy11Xfg+yYniyDwoXnH+XVVX1zR+NqEHhgjAHS9Tq6L4MS+YlazCXSaAODMwTIeDc9w6kB5JtedmKFpfxin5lfWKvCNINbiKeh+k0Qpl8eJJI4LbvpSz0gSrCXiwfZN+az6f7VgAU85NMZL6RmZ5WS8bI2C7Hhsah6tZa0CK+C50PtuFqUChCAH8Oz2TXIS95DpcZxoJXVFx4H6NIEWrLVEFBzdW0r/aIqGuvBbDN69RclkLzXNLeRU72T5Yx+FQwO8aIi0BiZKIEe5Dv2jKYAMug74LzvZdu4SueOD8Oo6+RuLqI7FeP/ZXg4ItA48cOHwriiDn1Icqg0VDPyYJLeiGo5dCWegvRIlzpbQA2uprdrA97lltpbnMTH9KzMLlFSw9OEpBU8u8nt5miVgYV5hFFPpV7DD17q+7Fk1UuBrg68NRgu+EbTR1Jc3UpB4Tqw4D09FWJjVTMy41iJ3nPWO8/DpqrbFuakLyjgxo+w3C51H+vSNP9H7LzNBaB8uAAAAAElFTkSuQmCC',
+		isFeatured: true,
+	},
+	{
+		id: 99,
+		title: 'Tresom',
+		description: 'Central retinal vein occlusion, unsp, with macular edema',
+		location: '2 Hanson Park',
+		date: '12/22/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJ+SURBVDjLfZPNTxNRFMXnX3DhxkRN48aEf8CkYaFGAy7cKImRCAv8iInGnSDGhSFEsJqoUWxABGNQ0zZFGrWRfqS1rf2ype1MC5FaytBmirWK1M7YTofjm0GaUAqLt7lzz++ce98bKh6Pg2EYxGIxRKNRRCIRhMNhhEIhBIPB3QConQ5F0zQkSdpyMpmMAvH5fDtCKNlZFrAsqzin0+kaRK6RFHC73dtCKDmy3Cy7yYVAIBAqFosQRVGpy0Cv1wuHw9EQQsmuG41EXCaRWUEQkCuKsC2tJ0mlUnC5XLDZbFsglOy8EblarUIWfy9JuDuzhr4vgJVd/5ZMJhGwPMLcxBnMT/UjMnoc0SdNHRSZkc/n80pTpVIBR5wHw2sYYoDhOKCZWYf8yUyCs3djJfYOKGbxK2aA915LjvL7/c1kRn55eVmB0HlRcdYSwPNZYCQBvPn8HoX4bZSXTOAcGvC0EdW0G/TYRUGZw+PxqMmMfC6XUyCJHyIGQhK0JIEp7ESBuQWJd4P/dgWFwFXMvuwiI5yHc+TaodoynE6nmmya5ziuBhl32/GTvgFJ8KKU7ITAtmM10YvU2ElYJl/AYDDs37RRsmW11Wrls9ksssxbcMHu/+IOCItn8Zu5iaT2BOzGUVmsUm6h/lqmp6fV5ld95cTH6yT2JwgLXfjLnsMKSTL/tAUW02vo9XpV7RrrAc8u7+2Kf+hF1PwAGX8bSgvtKER68HWYxJ6a2CRuCNANHgVW05gbPg177x54tK1waY7BYhzfIm4I6LvQJJa9j1H2P4S//zB0lw7ArB+FTqdTNXzK9YW25l3Cnc6Dom2gVbTeP+I0DvWcIuJ92/1M/wCZISaoLgB85AAAAABJRU5ErkJggg==',
+		isFeatured: false,
+	},
+	{
+		id: 100,
+		title: 'Viva',
+		description: 'Age-rel osteopor w current path fracture, left femur, init',
+		location: '5 Vahlen Terrace',
+		date: '11/13/2021',
+		image:
+			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJySURBVDjLpVNLbxJRFO4P8BfwO2Dp0g27VmvSnYkbEzYmLpq6sZP66KIxQmYsUUyb1gYqCZrU2qamVJwOIKaxUKAMD4HyKBQGHAaGx1COcy4P8bHzJt/i3pzvO+c759wJAJgYx7Vl0KjQqdCrmBlAP3jT/Bk/TryiQnv/rWhwuDOM9zjGnYROhUAwLBweRbg3riQza68YMAZjfxMYkK/a2DwVOE3whbIIktwB5bJHUGu0IVesgOcoyK/sJSiMHYoMBbRIDka+S82WAnjkdhcqUgcEFfVWl7xJchsOfX7JshNFES0RQF9YNmYekuPnDSj+aEOh2kc014BcpTUS2Tvw8Hc3CmhHgwI6B3fGYNl4SmIbbjxiCQnJ+WoLphZcEMpIkCk3SUwkeQ603csgFwX0nm9RDj1jqUi6/pBV4YJIrg5ZoakKfCIInkkgNhS4qMqwuvmeQy4KzPhPQgI2q1zrEAHMiLi56IVYvgFTlCpAOWH6sZvc28olbFg3BeQSgeNAkAhg+egVydNP3CQrik7OO4mtyfl9chcbHVhdez0S0H/+GuaqUgtqskJ8EjLVJyeL8oiMCXAysWwVaIt1ZEFndcaZdK4MvR5AutQk5SI5UZAJJh/sk6lgYzvdHhx8CQNl/jBqouaerWRwsj5eEJujSSARx4mekYwNxQRxNbvpxTp/2xzrj3G4SPS7ALX1kZUKlX5gta6QalIXMlkmzBzLVsBosUlz9M6vRRpf5SWrj1q3b/FefxzSBZH0BD2HUwLssgFYolf4WdP236s8/pnuvEoZFl7uMk+X1zj6uVl4ZmKERaOFmzM6mFtM5N+f6X++80/jPghfk2d02wAAAABJRU5ErkJggg==',
+		isFeatured: true,
+	},
+];
+
+export function getFeaturedEvents() {
+	return DUMMY_EVENTS.filter((event) => event.isFeatured);
+}
+
+export function getAllEvents() {
+	return DUMMY_EVENTS;
+}
+
+export function getFilteredEvents(dateFilter) {
+	const { year, month } = dateFilter;
+
+	let filteredEvents = DUMMY_EVENTS.filter((event) => {
+		const eventDate = new Date(event.date);
+		return eventDate.getFullYear() === year && eventDate.getMonth() === month - 1;
+	});
+
+	return filteredEvents;
+}
+
+export function getEventById(id) {
+	return DUMMY_EVENTS.find((event) => event.id == id);
+}
